@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "id": "sample-matrix",
+  "title": "Attention scores as a matrix",
+  "speakers": [
+    {"id": "host", "name": "Nia", "voice": "Sulafat", "color": "#4F8CFF", "side": "left", "role": "learner"},
+    {"id": "guest", "name": "Theo", "voice": "Iapetus", "color": "#FFB020", "side": "right", "role": "expert"}
+  ],
+  "segments": [
+    {"id": "seg01", "role": "mechanism", "title": "Scores between words", "learningGoal": "Each word scores every other word; a row of weights sums to one.", "visualPlan": "Matrix: query words down, key words across, heat by weight.",
+     "turns": [
+      {"id": "t01", "speaker": "host", "text": "How does the word it know that it means the brick?", "style": "", "onScreen": [], "factIds": []},
+      {"id": "t02", "speaker": "guest", "text": "Each word scores every other word. In this example it gives brick a weight of 0.81 and fell only 0.07.", "style": "", "onScreen": [], "factIds": []},
+      {"id": "t03", "speaker": "host", "text": "So the row for it is mostly brick, and the row sums to one?", "style": "", "onScreen": [], "factIds": []}
+     ]}
+  ]
+}

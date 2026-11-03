@@ -1,0 +1,598 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scenes.schema.json",
+  "title": "podcast-explainer-video scenes.json",
+  "description": "Visual choreography. Scenes and cues are anchored to turns or words, never to times; build_manifest.py resolves anchors to milliseconds. See references/manifest.md and references/visuals.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "scenes"],
+  "properties": {
+    "version": { "const": 1 },
+    "conceptAngle": { "type": "string", "maxLength": 200, "description": "One sentence that names the persistent concept world." },
+    "video": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": { "tailMs": { "type": "integer", "minimum": 0, "maximum": 10000, "description": "Hold after the audio ends. build_manifest.py clamps it to 500..3000." } }
+    },
+    "captions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": { "type": "string", "enum": ["karaoke", "pop", "off"] },
+        "maxCharsPerSecond": { "type": "number", "minimum": 8, "maximum": 25 },
+        "minPageMs": { "type": "integer", "minimum": 300, "maximum": 3000 }
+      }
+    },
+    "rail": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": { "waveform": { "type": "boolean" } }
+    },
+    "world": { "$ref": "#/$defs/world" },
+    "scenes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/scene" } },
+    "overlays": { "type": "array", "items": { "$ref": "#/$defs/overlay" } }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,39}$" },
+    "point": {
+      "description": "A moment in the audio. {turn} = turn start; {turn, edge:'end'} = turn end; {turn, word} = start of that word or phrase (occurrence counts from 1); {ms} = absolute escape hatch.",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["turn"],
+          "properties": {
+            "turn": { "type": "string", "pattern": "^t[0-9]{2,3}$" },
+            "word": { "type": ["string", "null"], "minLength": 1, "pattern": "[A-Za-z0-9]" },
+            "occurrence": { "type": "integer", "minimum": 1 },
+            "edge": { "type": "string", "enum": ["start", "end"] },
+            "offsetMs": { "type": "integer", "minimum": -5000, "maximum": 5000 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["ms"],
+          "properties": { "ms": { "type": "integer", "minimum": 0 } }
+        }
+      ]
+    },
+    "anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from"],
+      "properties": { "from": { "$ref": "#/$defs/point" }, "to": { "$ref": "#/$defs/point" } }
+    },
+    "scene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "anchor", "props"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "type": { "type": "string", "enum": ["title", "world", "diagram", "code", "equation", "recap", "check", "compare", "matrix", "custom"] },
+        "anchor": { "$ref": "#/$defs/anchor" },
+        "captions": { "type": "string", "enum": ["on", "off"] },
+        "segment": { "type": "string", "description": "Optional. The script segment this scene belongs to, for redo bookkeeping." },
+        "props": { "type": "object" }
+      },
+      "allOf": [
+        { "if": { "properties": { "type": { "const": "title" } } }, "then": { "properties": { "props": { "$ref": "#/$defs/titleProps" } } } },
+        { "if": { "properties": { "type": { "const": "world" } } }, "then": { "properties": { "props": { "$ref": "#/$defs/worldProps" } } } },
+        { "if": { "properties": { "type": { "const": "diagram" } } }, "then": { "properties": { "props": { "$ref": "#/$defs/diagramProps" } } } },
+        { "if": { "properties": { "type": { "const": "code" } } }, "then": { "properties": { "props": { "$ref": "#/$defs/codeProps" } } } },
+        { "if": { "properties": { "type": { "const": "equation" } } }, "then": { "properties": { "props": { "$ref": "#/$defs/equationProps" } } } },
+        { "if": { "properties": { "type": { "const": "recap" } } }, "then": { "properties": { "props": { "$ref": "#/$defs/recapProps" } } } },
+        { "if": { "properties": { "type": { "const": "check" } } }, "then": { "properties": { "props": { "$ref": "#/$defs/checkProps" } } } },
+        { "if": { "properties": { "type": { "const": "compare" } } }, "then": { "properties": { "props": { "$ref": "#/$defs/compareProps" } } } },
+        { "if": { "properties": { "type": { "const": "matrix" } } }, "then": { "properties": { "props": { "$ref": "#/$defs/matrixProps" } } } },
+        { "if": { "properties": { "type": { "const": "custom" } } }, "then": { "properties": { "props": { "type": "object", "required": ["component"], "properties": { "component": { "type": "string", "pattern": "^[A-Z][A-Za-z0-9]*$" }, "worldSteps": { "type": "array", "description": "Steps that continue the persistent world (shared timeline); the component draws it with useSharedWorld + WorldCanvas.", "items": { "$ref": "#/$defs/worldStep" } } } } } } }
+      ]
+    },
+    "overlay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "anchor", "props"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "type": { "const": "chip" },
+        "anchor": { "$ref": "#/$defs/anchor" },
+        "props": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["text"],
+          "properties": {
+            "text": { "type": "string", "minLength": 1, "maxLength": 32 },
+            "color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+            "persist": { "type": "boolean", "description": "Keep the chip after the next visual step. Default: it ends at the next step after its start (at least 700 ms), because a chip is a label for one state. Use persist for a term, never for a count or state that a later step changes." },
+            "claim": { "$ref": "#/$defs/countClaim" },
+            "earlyOk": { "type": "string", "minLength": 3, "maxLength": 200, "description": "W18: the reason a number on this step's labels (stat, note, set value or label, banner text or side labels, chip text) shows before the words speak it, for a picture meant to lead (a cold-open prompt, the same quantity in other words). qc.py labels.early lists it as reviewed; an unreviewed early label fails qc.py all --final." }
+          }
+        }
+      }
+    },
+    "countClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "value", "of", "scope"],
+      "description": "A structured count claim, checked by qc.py labels.counts against a compare table's two rows over the columns filled in both, whatever the wording. columns-changed counts columns whose cells differ; cells-changed-to counts columns whose cells differ and whose second-row cell is `to`. W13b (Q05): the label text may write its numbers as placeholders {value}, {of} and {to}, which the renderer fills from the claim; a written \"N of M\" (or \"N out of M\", \"N/M\") that differs from value and of stops the render and build_manifest.py.",
+      "properties": {
+        "kind": { "const": "count" },
+        "value": { "type": "integer", "minimum": 0, "description": "The count the label states." },
+        "of": { "type": "integer", "minimum": 1, "description": "The denominator the label states (the table's column count)." },
+        "scope": { "type": "string", "enum": ["columns-changed", "cells-changed-to"] },
+        "to": { "type": "string", "maxLength": 12, "description": "cells-changed-to only: the new cell text." },
+        "side": { "type": "string", "enum": ["left", "right"], "description": "The table panel. Default: a stat's own panel, else the only table panel." }
+      },
+      "allOf": [{ "if": { "required": ["scope"], "properties": { "scope": { "const": "cells-changed-to" } } }, "then": { "required": ["to"] } }]
+    },
+    "walkSpec": {
+      "oneOf": [
+        { "type": "string", "description": "An item id: the arrow walks clockwise to its successor (the next visible owner) and ends at that owner." },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["item"],
+          "properties": {
+            "item": { "type": "string" },
+            "to": { "type": "string", "description": "The owner the arrow ends at. It must be the item's successor at this step unless overshoot is true; build_manifest.py and the renderer reject a mismatch." },
+            "overshoot": { "type": "boolean", "description": "The walk passes the successor on purpose (for example replicas on the next servers); drawn dashed in the bad colour." }
+          }
+        }
+      ]
+    },
+    "titleProps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title"],
+      "properties": {
+        "title": { "type": "string", "maxLength": 60 },
+        "subtitle": { "type": "string", "maxLength": 90 },
+        "kicker": { "type": "string", "maxLength": 40 },
+        "question": { "type": "string", "maxLength": 90 },
+        "questionAt": { "$ref": "#/$defs/point" }
+      }
+    },
+    "world": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodes", "edges"],
+      "properties": {
+        "width": { "type": "integer", "minimum": 400, "description": "World units. Default 1728 (one unit = one pixel at zoom 1)." },
+        "height": { "type": "integer", "minimum": 300, "description": "World units. Default 712." },
+        "camera": { "$ref": "#/$defs/camera" },
+        "layout": { "type": "string", "enum": ["free", "ring"], "description": "ring: nodes with pos or angle sit on a circle (references/visuals.md, ring layout)." },
+        "ring": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["positions"],
+          "properties": {
+            "positions": { "type": "integer", "minimum": 2, "maximum": 360, "description": "Slots on the ring; pos runs 0..positions-1 clockwise from 12 o'clock." },
+            "cx": { "type": "number" },
+            "cy": { "type": "number" },
+            "r": { "type": "number", "minimum": 60, "description": "Radius of the ring line in world units. Default 0.31 x min(width, height)." },
+            "ownership": { "type": "string", "enum": ["clockwise", "none"], "description": "clockwise (default): each item node takes the colour of the next owner node clockwise." },
+            "ownershipAt": { "$ref": "#/$defs/point", "description": "Items stay grey until this word (the rule is spoken); an item named in a walk colours when its walk ends." }
+          }
+        },
+        "nodes": { "type": "array", "minItems": 1, "maxItems": 48, "description": "Every node of the episode world, hidden ones included (a scene hides and reveals them). Keep about 32 or fewer on screen at once.", "items": { "$ref": "#/$defs/worldNode" } },
+        "edges": { "type": "array", "maxItems": 40, "items": { "$ref": "#/$defs/worldEdge" } },
+        "route": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 9,
+          "description": "Route recall (references/memory-palace.md): ordered stations. Station numbers run 1..n in order; their segments follow script order.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["station", "nodes", "segment", "item"],
+            "properties": {
+              "station": { "type": "integer", "minimum": 1 },
+              "nodes": { "type": "array", "minItems": 1, "maxItems": 2, "items": { "type": "string" } },
+              "segment": { "type": "string", "pattern": "^seg[0-9]{2}$" },
+              "anchor": { "type": "string", "maxLength": 24 },
+              "item": { "type": "string", "maxLength": 80 }
+            }
+          }
+        }
+      }
+    },
+    "camera": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "zoom": { "type": "number", "minimum": 0.5, "maximum": 3 }
+      }
+    },
+    "worldNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label"],
+      "anyOf": [{ "required": ["x", "y"] }, { "required": ["pos"] }, { "required": ["angle"] }],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "label": { "type": "string", "maxLength": 18 },
+        "sublabel": { "type": "string", "maxLength": 22 },
+        "value": { "type": "string", "maxLength": 14, "description": "A label for the state at the node's reveal: it disappears at the next step on its timeline unless persist is true. Change it with set." },
+        "persist": { "type": "boolean", "description": "Keep the node's own value after the next step." },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "w": { "type": "number", "minimum": 80 },
+        "h": { "type": "number", "minimum": 60 },
+        "shape": { "type": "string", "enum": ["box", "pill", "circle"] },
+        "color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "revealAt": { "$ref": "#/$defs/point" },
+        "anchorImage": { "type": "string", "pattern": "^(img|icons)/[^/]+\\.(svg|png)$", "description": "Small glyph (about 56 px) drawn in the node corner; a route station's anchor." },
+        "pos": { "type": "number", "minimum": 0, "description": "Ring layout: slot 0..positions-1 clockwise from 12 o'clock; build_manifest.py writes x and y." },
+        "angle": { "type": "number", "minimum": 0, "exclusiveMaximum": 360, "description": "Ring layout: degrees clockwise from 12 o'clock, instead of pos." },
+        "ringOffset": { "type": "number", "minimum": -400, "maximum": 400, "description": "Ring layout: radial offset from the ring line (+ = outside), world units." },
+        "role": { "type": "string", "enum": ["owner", "item"], "description": "Ring layout: an item takes the colour of the next visible owner clockwise." },
+        "virtualOf": { "type": "string", "description": "W13b: this owner is one of several points of one server (virtual node). Names the server (usually the plain owner's id); the colour defaults to that node's colour and the label draws with a point subscript (A1, A2)." },
+        "point": { "type": "integer", "minimum": 1, "maximum": 99, "description": "W13b: the subscript drawn after the label of a virtual node. Default: the node's 1-based index among nodes with the same virtualOf." }
+      }
+    },
+    "worldEdge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "from", "to"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "from": { "type": "string" },
+        "to": { "type": "string" },
+        "label": { "type": "string", "maxLength": 16 },
+        "dashed": { "type": "boolean" },
+        "directed": { "type": "boolean" },
+        "bend": { "type": "number" },
+        "revealAt": { "$ref": "#/$defs/point" }
+      }
+    },
+    "idList": { "type": "array", "items": { "type": "string" } },
+    "markPersist": {
+      "description": "W13b: marks (focus, focusEdges, arcs, the automatic change band with its moved outlines, tint, walk arrows) end at the next step by default. true keeps every mark this step sets until a later step sets that kind again; a list keeps only those kinds.",
+      "oneOf": [
+        { "type": "boolean" },
+        { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "enum": ["focus", "focusEdges", "arcs", "change", "tint", "walk"] } }
+      ]
+    },
+    "worldProps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["steps"],
+      "properties": {
+        "steps": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/worldStep" } }
+      }
+    },
+    "worldSet": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": { "type": "string", "maxLength": 14 },
+          "label": { "type": "string", "maxLength": 18 },
+          "color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+          "persist": { "type": "boolean", "description": "Keep value and label after the next step. Default: they show until the next step on the same timeline, then the node shows no value and its own label. color always stays." }
+        }
+      }
+    },
+    "ringArc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to"],
+      "properties": {
+        "from": { "type": "number", "minimum": 0, "description": "First slot of the range (inclusive)." },
+        "to": { "type": "number", "minimum": 0, "description": "Last slot (inclusive), clockwise from `from`." },
+        "color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }
+      }
+    },
+    "worldStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["at"],
+      "properties": {
+        "at": { "$ref": "#/$defs/point" },
+        "persist": { "$ref": "#/$defs/markPersist" },
+        "earlyOk": { "type": "string", "minLength": 3, "maxLength": 200, "description": "W18: the reason a number on this step's labels (stat, note, set value or label, banner text or side labels, chip text) shows before the words speak it, for a picture meant to lead (a cold-open prompt, the same quantity in other words). qc.py labels.early lists it as reviewed; an unreviewed early label fails qc.py all --final." },
+        "speaksOf": { "$ref": "#/$defs/idList", "description": "W13b: nodes the words of this step talk about. The renderer never dims them while the step is current; build_manifest.py warns when a focus dims a node the words name." },
+        "focus": { "$ref": "#/$defs/idList", "description": "Spotlight: these nodes get the focus ring, all others dim. Until the next step unless persist; [] clears." },
+        "focusEdges": { "$ref": "#/$defs/idList", "description": "Until the next step unless persist; [] clears." },
+        "reveal": { "$ref": "#/$defs/idList" },
+        "hide": { "$ref": "#/$defs/idList", "description": "Nodes or edges fade out and stay hidden until a later reveal." },
+        "flow": { "$ref": "#/$defs/idList" },
+        "pulse": { "$ref": "#/$defs/idList" },
+        "walk": { "type": "array", "items": { "$ref": "#/$defs/walkSpec" }, "description": "Ring layout: an arrow walks clockwise from each item and ends at its owner (the successor, or `to` with overshoot). It ends at the next step or at the end of its anchor turn (plus hold), whichever is first, at least 1.5 s; persist keeps it until a later step walks." },
+        "arcs": { "type": "array", "maxItems": 4, "items": { "$ref": "#/$defs/ringArc" }, "description": "Ring layout: highlighted ranges. Until the next step unless persist; [] clears (also clears the automatic change arc)." },
+        "freeze": { "type": "boolean", "description": "Ring layout: true holds item colours (a server can appear while the learner predicts); false recolours with the change band and moved outlines, which end at the next step unless this step has persist \"change\"." },
+        "set": { "$ref": "#/$defs/worldSet" },
+        "tint": { "type": "object", "maxProperties": 4, "propertyNames": { "pattern": "^(accent|good|warn|bad|muted|text|#[0-9A-Fa-f]{6})$" }, "additionalProperties": { "$ref": "#/$defs/idList" }, "description": "Colour class -> node ids: a solid outline in that colour (theme name or #hex) around each node, replacing the moved outline. Until the next step unless persist; {} clears. Splits a set of items by what happened to them." },
+        "camera": { "$ref": "#/$defs/camera" },
+        "note": { "type": "string", "maxLength": 60, "description": "A callout for this step only; it disappears at the next step." }
+      }
+    },
+    "diagramProps": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "maxLength": 48 },
+        "viewBox": { "type": "string" },
+        "svg": { "type": "string", "pattern": "^diagrams/[^/]+\\.svg$" },
+        "elements": {
+          "type": "array",
+          "maxItems": 60,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "kind"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "kind": { "type": "string", "enum": ["rect", "circle", "ellipse", "line", "arrow", "path", "polygon", "text"] },
+              "x": { "type": "number" }, "y": { "type": "number" }, "w": { "type": "number" }, "h": { "type": "number" },
+              "r": { "type": "number" }, "rx": { "type": "number" }, "ry": { "type": "number" },
+              "x2": { "type": "number" }, "y2": { "type": "number" },
+              "d": { "type": "string" }, "points": { "type": "string" },
+              "text": { "type": "string", "maxLength": 40 },
+              "fill": { "type": "string" }, "stroke": { "type": "string" },
+              "strokeWidth": { "type": "number" }, "fontSize": { "type": "number", "minimum": 28 },
+              "anchor": { "type": "string", "enum": ["start", "middle", "end"] },
+              "draw": { "type": "boolean" }, "dashed": { "type": "boolean" }
+            }
+          }
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["at"],
+            "properties": {
+              "at": { "$ref": "#/$defs/point" },
+              "reveal": { "$ref": "#/$defs/idList" },
+              "hide": { "$ref": "#/$defs/idList", "description": "Elements fade out on this step and stay hidden (an element's first hide step counts). Use it to move a part: hide the old copy, reveal a new one." },
+              "highlight": { "$ref": "#/$defs/idList" }
+            }
+          }
+        }
+      }
+    },
+    "lineSpec": { "oneOf": [{ "type": "string", "pattern": "^[0-9]+(-[0-9]+)?(,[0-9]+(-[0-9]+)?)*$" }, { "type": "array", "items": { "type": "integer", "minimum": 1 } }] },
+    "codeProps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code"],
+      "properties": {
+        "code": { "type": "string", "minLength": 1 },
+        "language": { "type": "string" },
+        "title": { "type": "string", "maxLength": 48 },
+        "filename": { "type": "string", "maxLength": 40 },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["at"],
+            "properties": { "at": { "$ref": "#/$defs/point" }, "lines": { "$ref": "#/$defs/lineSpec" }, "focus": { "$ref": "#/$defs/lineSpec" } }
+          }
+        }
+      }
+    },
+    "matrixRef": { "oneOf": [{ "type": "integer", "minimum": 0 }, { "type": "string", "minLength": 1, "maxLength": 12 }], "description": "A 0-based index or the header text (use the index when a header repeats)." },
+    "matrixProps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rows", "columns"],
+      "description": "W16: a score or weight grid between two sets of words (references/visuals.md, matrix). Text never draws under 28 px: build_manifest.py and the renderer refuse a matrix that cannot fit, with the largest column count that would.",
+      "properties": {
+        "title": { "type": "string", "maxLength": 48 },
+        "rows": { "type": "array", "minItems": 1, "maxItems": 12, "items": { "type": "string", "minLength": 1, "maxLength": 12 } },
+        "columns": { "type": "array", "minItems": 1, "maxItems": 12, "items": { "type": "string", "minLength": 1, "maxLength": 12 } },
+        "cells": { "type": "array", "description": "One row per row header, one entry per column; \"\" leaves a cell blank.", "items": { "type": "array", "items": { "type": "string", "maxLength": 12 } } },
+        "heat": { "type": "array", "description": "Optional heatmap intensity 0..1 per cell, same shape as cells.", "items": { "type": "array", "items": { "type": "number", "minimum": 0, "maximum": 1 } } },
+        "rowAxis": { "type": "string", "maxLength": 24, "description": "Caption for the row headers, e.g. \"query\"." },
+        "colAxis": { "type": "string", "maxLength": 24, "description": "Caption for the column headers, e.g. \"key\"." },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["at"],
+            "properties": {
+              "at": { "$ref": "#/$defs/point" },
+              "highlight": { "type": "array", "items": { "type": "object", "additionalProperties": false, "properties": { "row": { "$ref": "#/$defs/matrixRef" }, "col": { "$ref": "#/$defs/matrixRef" } } }, "description": "{row, col} marks a cell, {row} a whole row, {col} a whole column. Lasts until the next step unless persist." },
+              "note": { "type": "string", "maxLength": 60, "description": "Shown under the grid until the next step." },
+              "persist": { "type": "boolean" },
+              "earlyOk": { "type": "string", "minLength": 3, "maxLength": 200, "description": "W18: the reason a number on this step's labels (stat, note, set value or label, banner text or side labels, chip text) shows before the words speak it, for a picture meant to lead (a cold-open prompt, the same quantity in other words). qc.py labels.early lists it as reviewed; an unreviewed early label fails qc.py all --final." }
+            }
+          }
+        }
+      }
+    },
+    "equationProps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lines"],
+      "properties": {
+        "title": { "type": "string", "maxLength": 48 },
+        "lines": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "tex": { "type": "string" },
+              "text": { "type": "string", "maxLength": 50 },
+              "note": { "type": "string", "maxLength": 50 },
+              "at": { "$ref": "#/$defs/point" },
+              "earlyOk": { "type": "string", "minLength": 3, "maxLength": 200, "description": "W18: the reason a number on this step's labels (stat, note, set value or label, banner text or side labels, chip text) shows before the words speak it, for a picture meant to lead (a cold-open prompt, the same quantity in other words). qc.py labels.early lists it as reviewed; an unreviewed early label fails qc.py all --final." }
+            },
+            "anyOf": [{ "required": ["tex"] }, { "required": ["text"] }]
+          }
+        }
+      }
+    },
+    "recapProps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["points"],
+      "properties": {
+        "title": { "type": "string", "maxLength": 48 },
+        "points": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["text"],
+            "properties": { "text": { "type": "string", "maxLength": 70 }, "at": { "$ref": "#/$defs/point" } }
+          }
+        }
+      }
+    },
+    "checkProps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question"],
+      "properties": {
+        "question": { "type": "string", "maxLength": 120 },
+        "options": { "type": "array", "maxItems": 4, "items": { "type": "string", "maxLength": 60 } },
+        "correct": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "answer": { "type": "string", "maxLength": 90 },
+        "answerAt": { "$ref": "#/$defs/point" }
+      },
+      "description": "Answered retrieval card: answer and/or correct with answerAt (the answer shows on that word, zero lead). Final self-test card: question (and options) only; nothing is revealed.",
+      "allOf": [
+        { "if": { "required": ["answer"] }, "then": { "required": ["answerAt"] } },
+        { "if": { "required": ["correct"] }, "then": { "required": ["answerAt"] } },
+        { "if": { "required": ["answerAt"] }, "then": { "anyOf": [{ "required": ["answer"] }, { "required": ["correct"] }] } }
+      ]
+    },
+    "panelStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["at"],
+      "properties": {
+        "at": { "$ref": "#/$defs/point" },
+        "persist": { "$ref": "#/$defs/markPersist" },
+        "earlyOk": { "type": "string", "minLength": 3, "maxLength": 200, "description": "W18: the reason a number on this step's labels (stat, note, set value or label, banner text or side labels, chip text) shows before the words speak it, for a picture meant to lead (a cold-open prompt, the same quantity in other words). qc.py labels.early lists it as reviewed; an unreviewed early label fails qc.py all --final." },
+        "speaksOf": { "$ref": "#/$defs/idList" },
+        "focus": { "$ref": "#/$defs/idList" },
+        "focusEdges": { "$ref": "#/$defs/idList" },
+        "reveal": { "$ref": "#/$defs/idList" },
+        "hide": { "$ref": "#/$defs/idList" },
+        "flow": { "$ref": "#/$defs/idList" },
+        "pulse": { "$ref": "#/$defs/idList" },
+        "walk": { "type": "array", "items": { "$ref": "#/$defs/walkSpec" } },
+        "arcs": { "type": "array", "maxItems": 4, "items": { "$ref": "#/$defs/ringArc" } },
+        "freeze": { "type": "boolean" },
+        "set": { "$ref": "#/$defs/worldSet" },
+        "tint": { "type": "object", "maxProperties": 4, "propertyNames": { "pattern": "^(accent|good|warn|bad|muted|text|#[0-9A-Fa-f]{6})$" }, "additionalProperties": { "$ref": "#/$defs/idList" }, "description": "Colour class -> node ids: a solid outline in that colour (theme name or #hex) around each node, replacing the moved outline. Until the next step unless persist; {} clears. Splits a set of items by what happened to them." },
+        "note": { "type": "string", "maxLength": 40 },
+        "title": { "type": "string", "maxLength": 30, "description": "Replaces the panel title from this word on (zero lead); inherited." },
+        "tag": { "type": "string", "maxLength": 12, "description": "Replaces the tag pill from this word on (zero lead); inherited; \"\" hides it." },
+        "fill": { "type": "object", "additionalProperties": { "oneOf": [{ "const": "all" }, { "type": "array", "items": { "type": "integer", "minimum": 0 } }] }, "description": "Table: row id -> columns shown on this cue (zero lead), cumulative. A row named in any fill shows ? until filled." },
+        "stat": {
+          "oneOf": [
+            { "type": "string", "maxLength": 34 },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["text"],
+              "properties": {
+                "text": { "type": "string", "maxLength": 34 },
+                "persist": { "type": "boolean", "description": "Keep the stat after the panel's next step." },
+                "claim": { "$ref": "#/$defs/countClaim" }
+              }
+            }
+          ],
+          "description": "Result line under the panel; shows on its word with zero lead until the panel's next step (unless persist); \"\" clears it. The object form carries persist and a count claim."
+        },
+        "marks": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "integer", "minimum": 0 } }, "description": "Table: row id -> 0-based columns outlined; inherited; {} clears." },
+        "cellTint": { "type": "object", "maxProperties": 4, "propertyNames": { "pattern": "^(accent|good|warn|bad|muted|text|#[0-9A-Fa-f]{6})$" }, "additionalProperties": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "integer", "minimum": 0 } } }, "description": "Table: colour class -> row id -> 0-based columns: a solid outline in that colour, replacing the dashed mark. Splits cells by what happened to them. Inherited; {} clears." }
+      }
+    },
+    "comparePanel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "kind"],
+      "properties": {
+        "title": { "type": "string", "maxLength": 30 },
+        "tag": { "type": "string", "maxLength": 12 },
+        "kind": { "type": "string", "enum": ["world", "table", "text"] },
+        "world": { "oneOf": [{ "const": "shared" }, { "$ref": "#/$defs/world" }], "description": "kind world: \"shared\" continues the episode world (its steps join the global timeline), or a local world for this panel only." },
+        "camera": { "$ref": "#/$defs/camera" },
+        "columns": { "type": "array", "maxItems": 14, "items": { "type": "string", "maxLength": 12 }, "description": "Table headers (W16: up to 12 characters; a cell widens to hold its text, and the 28 px rule still refuses a table that cannot fit). Every row needs exactly one cell per column. The layout must keep text at 28 px or more at 1080p (references/visuals.md, table limits); build_manifest.py and the renderer reject a table that cannot, with the numbers." },
+        "rows": {
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "cells"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "label": { "type": "string", "maxLength": 16, "description": "W13b: the row-label column grows from 180 px to hold the longest label at the table text size, up to 320 px (14 characters at 36 px); a longer label shrinks, and one that would draw under 28 px (over 18 characters) is refused with the numbers." },
+              "cells": { "type": "array", "maxItems": 14, "items": { "type": "string", "maxLength": 12 }, "description": "Exactly one cell per column (no padding); a row of another length is rejected." },
+              "at": { "$ref": "#/$defs/point" }
+            }
+          }
+        },
+        "valueColors": { "type": "object", "additionalProperties": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" } },
+        "lines": {
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["text"],
+            "properties": { "text": { "type": "string", "maxLength": 40 }, "at": { "$ref": "#/$defs/point" } }
+          }
+        },
+        "steps": { "type": "array", "items": { "$ref": "#/$defs/panelStep" } }
+      },
+      "allOf": [
+        { "if": { "properties": { "kind": { "const": "world" } } }, "then": { "required": ["world"] } },
+        { "if": { "properties": { "kind": { "const": "table" } } }, "then": { "required": ["rows"] } },
+        { "if": { "properties": { "kind": { "const": "text" } } }, "then": { "required": ["lines"] } }
+      ]
+    },
+    "compareProps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["left", "right"],
+      "properties": {
+        "title": { "type": "string", "maxLength": 48 },
+        "left": { "$ref": "#/$defs/comparePanel" },
+        "right": { "$ref": "#/$defs/comparePanel" },
+        "verdict": { "$ref": "#/$defs/banner", "description": "The first banner. Only on its word do the panels turn green (right) and red (wrong)." },
+        "banners": {
+          "type": "array",
+          "maxItems": 6,
+          "items": { "$ref": "#/$defs/banner" },
+          "description": "Later banners. Each replaces the verdict or the banner before it on its word (zero lead): change the text when the first verdict stops being true, set winner none to make the panels neutral again, or text \"\" to hide the badge."
+        }
+      }
+    },
+    "banner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "at"],
+      "properties": {
+        "text": { "type": "string", "maxLength": 60, "description": "\"\" hides the badge (winner and labels still apply)." },
+        "winner": { "type": "string", "enum": ["left", "right", "none"], "description": "Default none: both panels neutral." },
+        "labels": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": { "left": { "type": "string", "maxLength": 16 }, "right": { "type": "string", "maxLength": 16 } },
+          "description": "Pill text per side in place of RIGHT / WRONG, for example \"moves 9 of 12\". With winner none the pills are neutral."
+        },
+        "persist": { "type": "boolean", "description": "Keep the banner after the next step of either panel. Default: it ends there and the panels turn neutral." },
+        "claim": { "$ref": "#/$defs/countClaim" },
+        "at": { "$ref": "#/$defs/point" },
+        "earlyOk": { "type": "string", "minLength": 3, "maxLength": 200, "description": "W18: the reason a number on this step's labels (stat, note, set value or label, banner text or side labels, chip text) shows before the words speak it, for a picture meant to lead (a cold-open prompt, the same quantity in other words). qc.py labels.early lists it as reviewed; an unreviewed early label fails qc.py all --final." }
+      }
+    }
+  }
+}

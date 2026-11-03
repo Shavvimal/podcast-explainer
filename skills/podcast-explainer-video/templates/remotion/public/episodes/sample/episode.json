@@ -1,0 +1,1462 @@
+{
+  "version": 1,
+  "id": "sample",
+  "title": "How a hash map finds a key",
+  "conceptAngle": "A hash map is an address calculator: the key computes its own bucket, so lookup is arithmetic plus one jump.",
+  "builtAt": "2026-11-02T19:40:51+00:00",
+  "timingSource": "whisper.cpp",
+  "video": {
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "tailMs": 700
+  },
+  "audio": {
+    "src": "episode.wav",
+    "durationMs": 29234,
+    "sampleRate": 24000,
+    "scratch": true
+  },
+  "speakers": [
+    {
+      "id": "host",
+      "name": "Nia",
+      "voice": "Sulafat",
+      "color": "#4F8CFF",
+      "side": "left",
+      "role": "learner"
+    },
+    {
+      "id": "guest",
+      "name": "Theo",
+      "voice": "Iapetus",
+      "color": "#FFB020",
+      "side": "right",
+      "role": "expert"
+    }
+  ],
+  "segments": [
+    {
+      "id": "seg01",
+      "role": "hook",
+      "title": "The puzzle",
+      "startMs": 0,
+      "endMs": 3596
+    },
+    {
+      "id": "seg02",
+      "role": "mechanism",
+      "title": "Hash, then jump",
+      "startMs": 3596,
+      "endMs": 16353
+    },
+    {
+      "id": "seg03",
+      "role": "misconception",
+      "title": "Collisions",
+      "startMs": 16353,
+      "endMs": 22033
+    },
+    {
+      "id": "seg04",
+      "role": "recap",
+      "title": "Recap",
+      "startMs": 22033,
+      "endMs": 29934
+    }
+  ],
+  "turns": [
+    {
+      "id": "t01",
+      "speaker": "host",
+      "segment": "seg01",
+      "text": "Why can a hash map find one key among a million in one step?",
+      "startMs": 250,
+      "endMs": 2996,
+      "onScreen": [
+        "hash map"
+      ],
+      "words": [
+        {
+          "text": "Why",
+          "startMs": 260,
+          "endMs": 490,
+          "source": "asr"
+        },
+        {
+          "text": "can",
+          "startMs": 490,
+          "endMs": 610,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 610,
+          "endMs": 670,
+          "source": "asr"
+        },
+        {
+          "text": "hash",
+          "startMs": 670,
+          "endMs": 920,
+          "source": "asr"
+        },
+        {
+          "text": "map",
+          "startMs": 920,
+          "endMs": 1200,
+          "source": "asr"
+        },
+        {
+          "text": "find",
+          "startMs": 1200,
+          "endMs": 1350,
+          "source": "asr"
+        },
+        {
+          "text": "one",
+          "startMs": 1350,
+          "endMs": 1530,
+          "source": "asr"
+        },
+        {
+          "text": "key",
+          "startMs": 1530,
+          "endMs": 1770,
+          "source": "asr"
+        },
+        {
+          "text": "among",
+          "startMs": 1770,
+          "endMs": 2000,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 2000,
+          "endMs": 2040,
+          "source": "asr"
+        },
+        {
+          "text": "million",
+          "startMs": 2040,
+          "endMs": 2370,
+          "source": "asr"
+        },
+        {
+          "text": "in",
+          "startMs": 2370,
+          "endMs": 2490,
+          "source": "asr"
+        },
+        {
+          "text": "one",
+          "startMs": 2490,
+          "endMs": 2670,
+          "source": "asr"
+        },
+        {
+          "text": "step?",
+          "startMs": 2670,
+          "endMs": 2950,
+          "source": "asr"
+        }
+      ]
+    },
+    {
+      "id": "t02",
+      "speaker": "guest",
+      "segment": "seg02",
+      "text": "It never searches. A hash function turns the key into a number.",
+      "startMs": 3596,
+      "endMs": 6643,
+      "onScreen": [
+        "hash function"
+      ],
+      "words": [
+        {
+          "text": "It",
+          "startMs": 3596,
+          "endMs": 3746,
+          "source": "asr"
+        },
+        {
+          "text": "never",
+          "startMs": 3746,
+          "endMs": 4136,
+          "source": "asr"
+        },
+        {
+          "text": "searches.",
+          "startMs": 4136,
+          "endMs": 4836,
+          "source": "asr"
+        },
+        {
+          "text": "A",
+          "startMs": 4836,
+          "endMs": 4946,
+          "source": "asr"
+        },
+        {
+          "text": "hash",
+          "startMs": 4946,
+          "endMs": 5126,
+          "source": "asr"
+        },
+        {
+          "text": "function",
+          "startMs": 5126,
+          "endMs": 5496,
+          "source": "asr"
+        },
+        {
+          "text": "turns",
+          "startMs": 5496,
+          "endMs": 5756,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 5756,
+          "endMs": 5906,
+          "source": "asr"
+        },
+        {
+          "text": "key",
+          "startMs": 5906,
+          "endMs": 6036,
+          "source": "asr"
+        },
+        {
+          "text": "into",
+          "startMs": 6036,
+          "endMs": 6236,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 6236,
+          "endMs": 6276,
+          "source": "asr"
+        },
+        {
+          "text": "number.",
+          "startMs": 6276,
+          "endMs": 6643,
+          "source": "asr"
+        }
+      ]
+    },
+    {
+      "id": "t03",
+      "speaker": "host",
+      "segment": "seg02",
+      "text": "And that number picks the bucket?",
+      "startMs": 6893,
+      "endMs": 8123,
+      "onScreen": [
+        "bucket"
+      ],
+      "words": [
+        {
+          "text": "And",
+          "startMs": 6893,
+          "endMs": 7023,
+          "source": "asr"
+        },
+        {
+          "text": "that",
+          "startMs": 7023,
+          "endMs": 7193,
+          "source": "asr"
+        },
+        {
+          "text": "number",
+          "startMs": 7193,
+          "endMs": 7463,
+          "source": "asr"
+        },
+        {
+          "text": "picks",
+          "startMs": 7463,
+          "endMs": 7673,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 7673,
+          "endMs": 7803,
+          "source": "asr"
+        },
+        {
+          "text": "bucket?",
+          "startMs": 7803,
+          "endMs": 8123,
+          "source": "asr"
+        }
+      ]
+    },
+    {
+      "id": "t04",
+      "speaker": "guest",
+      "segment": "seg02",
+      "text": "Yes. The index is the hash modulo the bucket count.",
+      "startMs": 8373,
+      "endMs": 11117,
+      "onScreen": [
+        "modulo"
+      ],
+      "words": [
+        {
+          "text": "Yes.",
+          "startMs": 8373,
+          "endMs": 8683,
+          "source": "asr"
+        },
+        {
+          "text": "The",
+          "startMs": 8683,
+          "endMs": 9023,
+          "source": "asr"
+        },
+        {
+          "text": "index",
+          "startMs": 9023,
+          "endMs": 9233,
+          "source": "asr"
+        },
+        {
+          "text": "is",
+          "startMs": 9233,
+          "endMs": 9433,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 9433,
+          "endMs": 9563,
+          "source": "asr"
+        },
+        {
+          "text": "hash",
+          "startMs": 9563,
+          "endMs": 9823,
+          "source": "asr"
+        },
+        {
+          "text": "modulo",
+          "startMs": 9823,
+          "endMs": 10213,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 10213,
+          "endMs": 10413,
+          "source": "asr"
+        },
+        {
+          "text": "bucket",
+          "startMs": 10413,
+          "endMs": 10803,
+          "source": "asr"
+        },
+        {
+          "text": "count.",
+          "startMs": 10803,
+          "endMs": 11117,
+          "source": "asr"
+        }
+      ]
+    },
+    {
+      "id": "t05",
+      "speaker": "host",
+      "segment": "seg02",
+      "text": "What does that look like in code?",
+      "startMs": 11367,
+      "endMs": 12687,
+      "onScreen": [],
+      "words": [
+        {
+          "text": "What",
+          "startMs": 11367,
+          "endMs": 11567,
+          "source": "asr"
+        },
+        {
+          "text": "does",
+          "startMs": 11567,
+          "endMs": 11767,
+          "source": "asr"
+        },
+        {
+          "text": "that",
+          "startMs": 11767,
+          "endMs": 12007,
+          "source": "asr"
+        },
+        {
+          "text": "look",
+          "startMs": 12007,
+          "endMs": 12167,
+          "source": "asr"
+        },
+        {
+          "text": "like",
+          "startMs": 12167,
+          "endMs": 12347,
+          "source": "asr"
+        },
+        {
+          "text": "in",
+          "startMs": 12347,
+          "endMs": 12467,
+          "source": "asr"
+        },
+        {
+          "text": "code?",
+          "startMs": 12467,
+          "endMs": 12687,
+          "source": "asr"
+        }
+      ]
+    },
+    {
+      "id": "t06",
+      "speaker": "guest",
+      "segment": "seg02",
+      "text": "Python hashes the key, then reads one slot of an array.",
+      "startMs": 12937,
+      "endMs": 15753,
+      "onScreen": [
+        "slot"
+      ],
+      "words": [
+        {
+          "text": "Python",
+          "startMs": 12947,
+          "endMs": 13317,
+          "source": "asr"
+        },
+        {
+          "text": "hashes",
+          "startMs": 13317,
+          "endMs": 13697,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 13697,
+          "endMs": 13887,
+          "source": "asr"
+        },
+        {
+          "text": "key,",
+          "startMs": 13887,
+          "endMs": 14217,
+          "source": "asr"
+        },
+        {
+          "text": "then",
+          "startMs": 14217,
+          "endMs": 14457,
+          "source": "asr"
+        },
+        {
+          "text": "reads",
+          "startMs": 14457,
+          "endMs": 14767,
+          "source": "asr"
+        },
+        {
+          "text": "one",
+          "startMs": 14767,
+          "endMs": 14947,
+          "source": "asr"
+        },
+        {
+          "text": "slot",
+          "startMs": 14947,
+          "endMs": 15187,
+          "source": "asr"
+        },
+        {
+          "text": "of",
+          "startMs": 15187,
+          "endMs": 15307,
+          "source": "asr"
+        },
+        {
+          "text": "an",
+          "startMs": 15307,
+          "endMs": 15427,
+          "source": "asr"
+        },
+        {
+          "text": "array.",
+          "startMs": 15427,
+          "endMs": 15753,
+          "source": "asr"
+        }
+      ]
+    },
+    {
+      "id": "t07",
+      "speaker": "host",
+      "segment": "seg03",
+      "text": "Two keys can share a bucket, right?",
+      "startMs": 16353,
+      "endMs": 18078,
+      "onScreen": [],
+      "words": [
+        {
+          "text": "Two",
+          "startMs": 16373,
+          "endMs": 16583,
+          "source": "asr"
+        },
+        {
+          "text": "keys",
+          "startMs": 16583,
+          "endMs": 16803,
+          "source": "asr"
+        },
+        {
+          "text": "can",
+          "startMs": 16803,
+          "endMs": 16953,
+          "source": "asr"
+        },
+        {
+          "text": "share",
+          "startMs": 16953,
+          "endMs": 17253,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 17253,
+          "endMs": 17313,
+          "source": "asr"
+        },
+        {
+          "text": "bucket,",
+          "startMs": 17313,
+          "endMs": 17793,
+          "source": "asr"
+        },
+        {
+          "text": "right?",
+          "startMs": 17793,
+          "endMs": 18078,
+          "source": "asr"
+        }
+      ]
+    },
+    {
+      "id": "t08",
+      "speaker": "guest",
+      "segment": "seg03",
+      "text": "Right, that is a collision, and the bucket keeps a short chain.",
+      "startMs": 18328,
+      "endMs": 21433,
+      "onScreen": [
+        "collision"
+      ],
+      "words": [
+        {
+          "text": "Right,",
+          "startMs": 18328,
+          "endMs": 18868,
+          "source": "asr"
+        },
+        {
+          "text": "that",
+          "startMs": 18868,
+          "endMs": 19048,
+          "source": "asr"
+        },
+        {
+          "text": "is",
+          "startMs": 19048,
+          "endMs": 19178,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 19178,
+          "endMs": 19238,
+          "source": "asr"
+        },
+        {
+          "text": "collision,",
+          "startMs": 19238,
+          "endMs": 19868,
+          "source": "asr"
+        },
+        {
+          "text": "and",
+          "startMs": 19868,
+          "endMs": 20018,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 20018,
+          "endMs": 20188,
+          "source": "asr"
+        },
+        {
+          "text": "bucket",
+          "startMs": 20188,
+          "endMs": 20528,
+          "source": "asr"
+        },
+        {
+          "text": "keeps",
+          "startMs": 20528,
+          "endMs": 20748,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 20748,
+          "endMs": 20858,
+          "source": "asr"
+        },
+        {
+          "text": "short",
+          "startMs": 20858,
+          "endMs": 21138,
+          "source": "asr"
+        },
+        {
+          "text": "chain.",
+          "startMs": 21138,
+          "endMs": 21433,
+          "source": "asr"
+        }
+      ]
+    },
+    {
+      "id": "t09",
+      "speaker": "host",
+      "segment": "seg04",
+      "text": "So: hash, jump, check a short chain.",
+      "startMs": 22033,
+      "endMs": 24606,
+      "onScreen": [],
+      "words": [
+        {
+          "text": "So:",
+          "startMs": 22133,
+          "endMs": 22353,
+          "source": "asr"
+        },
+        {
+          "text": "hash,",
+          "startMs": 22353,
+          "endMs": 22833,
+          "source": "asr"
+        },
+        {
+          "text": "jump,",
+          "startMs": 22833,
+          "endMs": 23313,
+          "source": "asr"
+        },
+        {
+          "text": "check",
+          "startMs": 23313,
+          "endMs": 23713,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 23713,
+          "endMs": 23793,
+          "source": "asr"
+        },
+        {
+          "text": "short",
+          "startMs": 23793,
+          "endMs": 24233,
+          "source": "asr"
+        },
+        {
+          "text": "chain.",
+          "startMs": 24233,
+          "endMs": 24606,
+          "source": "asr"
+        }
+      ]
+    },
+    {
+      "id": "t10",
+      "speaker": "guest",
+      "segment": "seg04",
+      "text": "Quick check. What picks the bucket? The hash, modulo the bucket count.",
+      "startMs": 24856,
+      "endMs": 28635,
+      "onScreen": [],
+      "words": [
+        {
+          "text": "Quick",
+          "startMs": 24866,
+          "endMs": 25216,
+          "source": "asr"
+        },
+        {
+          "text": "check.",
+          "startMs": 25216,
+          "endMs": 25686,
+          "source": "asr"
+        },
+        {
+          "text": "What",
+          "startMs": 25686,
+          "endMs": 25976,
+          "source": "asr"
+        },
+        {
+          "text": "picks",
+          "startMs": 25976,
+          "endMs": 26136,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 26136,
+          "endMs": 26346,
+          "source": "asr"
+        },
+        {
+          "text": "bucket?",
+          "startMs": 26346,
+          "endMs": 26696,
+          "source": "asr"
+        },
+        {
+          "text": "The",
+          "startMs": 26696,
+          "endMs": 26906,
+          "source": "asr"
+        },
+        {
+          "text": "hash,",
+          "startMs": 26906,
+          "endMs": 27386,
+          "source": "asr"
+        },
+        {
+          "text": "modulo",
+          "startMs": 27386,
+          "endMs": 27746,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 27746,
+          "endMs": 27956,
+          "source": "asr"
+        },
+        {
+          "text": "bucket",
+          "startMs": 27956,
+          "endMs": 28376,
+          "source": "asr"
+        },
+        {
+          "text": "count.",
+          "startMs": 28376,
+          "endMs": 28635,
+          "source": "asr"
+        }
+      ]
+    }
+  ],
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "title",
+      "anchor": {
+        "from": {
+          "turn": "t01"
+        },
+        "to": {
+          "turn": "t01",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "kicker": "Sample episode",
+        "title": "How a hash map finds a key",
+        "subtitle": "No searching, just arithmetic",
+        "question": "One key among a million, in one step?",
+        "questionAt": {
+          "turn": "t01",
+          "word": "million"
+        },
+        "questionAtMs": 2040
+      },
+      "startMs": 0,
+      "endMs": 3596
+    },
+    {
+      "id": "s02",
+      "type": "world",
+      "anchor": {
+        "from": {
+          "turn": "t02"
+        },
+        "to": {
+          "turn": "t03",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "steps": [
+          {
+            "at": {
+              "turn": "t02"
+            },
+            "reveal": [
+              "key"
+            ],
+            "focus": [
+              "key"
+            ],
+            "camera": {
+              "x": 700,
+              "y": 300,
+              "zoom": 1.15
+            },
+            "atMs": 3596
+          },
+          {
+            "at": {
+              "turn": "t02",
+              "word": "hash function"
+            },
+            "reveal": [
+              "hashfn",
+              "e1"
+            ],
+            "focus": [
+              "hashfn"
+            ],
+            "focusEdges": [
+              "e1"
+            ],
+            "flow": [
+              "e1"
+            ],
+            "atMs": 4946
+          },
+          {
+            "at": {
+              "turn": "t02",
+              "word": "number"
+            },
+            "reveal": [
+              "hash",
+              "e2"
+            ],
+            "focus": [
+              "hash"
+            ],
+            "focusEdges": [
+              "e2"
+            ],
+            "flow": [
+              "e2"
+            ],
+            "atMs": 6276
+          },
+          {
+            "at": {
+              "turn": "t03",
+              "word": "bucket"
+            },
+            "reveal": [
+              "index",
+              "e3",
+              "buckets",
+              "e4"
+            ],
+            "focus": [
+              "index",
+              "buckets"
+            ],
+            "focusEdges": [
+              "e3",
+              "e4"
+            ],
+            "flow": [
+              "e4"
+            ],
+            "camera": {
+              "x": 864,
+              "y": 380,
+              "zoom": 1
+            },
+            "note": "The key computes its own address",
+            "atMs": 7803
+          }
+        ]
+      },
+      "startMs": 3596,
+      "endMs": 8373
+    },
+    {
+      "id": "s03",
+      "type": "equation",
+      "anchor": {
+        "from": {
+          "turn": "t04"
+        },
+        "to": {
+          "turn": "t04",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "title": "Pick the bucket",
+        "lines": [
+          {
+            "tex": "\\text{index} = h(k) \\bmod n",
+            "note": "n = number of buckets",
+            "at": {
+              "turn": "t04",
+              "word": "index"
+            },
+            "atMs": 9023
+          },
+          {
+            "tex": "7391 \\bmod 8 = 7",
+            "note": "the bucket for \"alice\"",
+            "at": {
+              "turn": "t04",
+              "word": "count"
+            },
+            "atMs": 10803
+          }
+        ]
+      },
+      "startMs": 8373,
+      "endMs": 11367
+    },
+    {
+      "id": "s04",
+      "type": "code",
+      "anchor": {
+        "from": {
+          "turn": "t05"
+        },
+        "to": {
+          "turn": "t06",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "title": "Lookup in code",
+        "filename": "lookup.py",
+        "language": "python",
+        "code": "def lookup(table, key):\n    h = hash(key)                # one hash\n    i = h % len(table.slots)     # pick the bucket\n    return table.slots[i]        # one jump, no search\n",
+        "steps": [
+          {
+            "at": {
+              "turn": "t05"
+            },
+            "lines": "1",
+            "atMs": 11367
+          },
+          {
+            "at": {
+              "turn": "t06",
+              "word": "hashes"
+            },
+            "lines": "2",
+            "focus": "2",
+            "atMs": 13317
+          },
+          {
+            "at": {
+              "turn": "t06",
+              "word": "reads"
+            },
+            "lines": "3-4",
+            "focus": "3-4",
+            "atMs": 14457
+          }
+        ]
+      },
+      "startMs": 11367,
+      "endMs": 16353
+    },
+    {
+      "id": "s05",
+      "type": "world",
+      "anchor": {
+        "from": {
+          "turn": "t07"
+        },
+        "to": {
+          "turn": "t07",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "steps": [
+          {
+            "at": {
+              "turn": "t07"
+            },
+            "set": {
+              "key": {
+                "value": "\"bob\"",
+                "persist": true
+              },
+              "hash": {
+                "value": "1047",
+                "persist": true
+              }
+            },
+            "focus": [
+              "key",
+              "hash"
+            ],
+            "focusEdges": [],
+            "atMs": 16353
+          },
+          {
+            "at": {
+              "turn": "t07",
+              "word": "share"
+            },
+            "set": {
+              "index": {
+                "value": "7",
+                "persist": true
+              }
+            },
+            "focus": [
+              "index",
+              "buckets"
+            ],
+            "pulse": [
+              "buckets"
+            ],
+            "note": "1047 % 8 = 7 as well",
+            "atMs": 16953
+          }
+        ]
+      },
+      "startMs": 16353,
+      "endMs": 18328
+    },
+    {
+      "id": "s06",
+      "type": "diagram",
+      "anchor": {
+        "from": {
+          "turn": "t08"
+        },
+        "to": {
+          "turn": "t08",
+          "word": "bucket"
+        }
+      },
+      "props": {
+        "title": "A collision",
+        "elements": [
+          {
+            "id": "b7",
+            "kind": "rect",
+            "x": 200,
+            "y": 200,
+            "w": 260,
+            "h": 140
+          },
+          {
+            "id": "b7label",
+            "kind": "text",
+            "x": 330,
+            "y": 270,
+            "text": "bucket 7"
+          },
+          {
+            "id": "a1",
+            "kind": "arrow",
+            "x": 470,
+            "y": 270,
+            "x2": 690,
+            "y2": 270,
+            "draw": true
+          },
+          {
+            "id": "alice",
+            "kind": "rect",
+            "x": 700,
+            "y": 210,
+            "w": 240,
+            "h": 120,
+            "stroke": "#7CC4FF"
+          },
+          {
+            "id": "alicelabel",
+            "kind": "text",
+            "x": 820,
+            "y": 270,
+            "text": "\"alice\""
+          },
+          {
+            "id": "a2",
+            "kind": "arrow",
+            "x": 950,
+            "y": 270,
+            "x2": 1170,
+            "y2": 270,
+            "draw": true
+          },
+          {
+            "id": "bob",
+            "kind": "rect",
+            "x": 1180,
+            "y": 210,
+            "w": 240,
+            "h": 120,
+            "stroke": "#FFB020"
+          },
+          {
+            "id": "boblabel",
+            "kind": "text",
+            "x": 1300,
+            "y": 270,
+            "text": "\"bob\""
+          }
+        ],
+        "steps": [
+          {
+            "at": {
+              "turn": "t08"
+            },
+            "reveal": [
+              "a1",
+              "alice",
+              "alicelabel"
+            ],
+            "atMs": 18328
+          },
+          {
+            "at": {
+              "turn": "t08",
+              "word": "collision"
+            },
+            "reveal": [
+              "a2",
+              "bob",
+              "boblabel"
+            ],
+            "highlight": [
+              "bob",
+              "boblabel",
+              "a2"
+            ],
+            "atMs": 19238
+          }
+        ]
+      },
+      "startMs": 18328,
+      "endMs": 20188
+    },
+    {
+      "id": "s07",
+      "type": "custom",
+      "anchor": {
+        "from": {
+          "turn": "t08",
+          "word": "bucket"
+        },
+        "to": {
+          "turn": "t08",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "component": "BucketFill",
+        "title": "Buckets keep a chain",
+        "buckets": 8,
+        "inserts": [
+          {
+            "key": "alice",
+            "hash": 7391,
+            "at": {
+              "turn": "t08",
+              "word": "bucket"
+            },
+            "atMs": 20188
+          },
+          {
+            "key": "carol",
+            "hash": 2050,
+            "at": {
+              "turn": "t08",
+              "word": "keeps"
+            },
+            "atMs": 20528
+          },
+          {
+            "key": "bob",
+            "hash": 1047,
+            "at": {
+              "turn": "t08",
+              "word": "chain"
+            },
+            "atMs": 21138
+          }
+        ]
+      },
+      "startMs": 20188,
+      "endMs": 22033
+    },
+    {
+      "id": "s08",
+      "type": "recap",
+      "anchor": {
+        "from": {
+          "turn": "t09"
+        },
+        "to": {
+          "turn": "t09",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "points": [
+          {
+            "text": "Hash the key to a number",
+            "at": {
+              "turn": "t09",
+              "word": "hash"
+            },
+            "atMs": 22353
+          },
+          {
+            "text": "Jump to bucket hash mod n",
+            "at": {
+              "turn": "t09",
+              "word": "jump"
+            },
+            "atMs": 22833
+          },
+          {
+            "text": "Check the short chain there",
+            "at": {
+              "turn": "t09",
+              "word": "check"
+            },
+            "atMs": 23313
+          }
+        ]
+      },
+      "startMs": 22033,
+      "endMs": 24856
+    },
+    {
+      "id": "s09",
+      "type": "check",
+      "anchor": {
+        "from": {
+          "turn": "t10"
+        },
+        "to": {
+          "turn": "t10",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "question": "What picks the bucket?",
+        "options": [
+          "A search through every key",
+          "The hash, modulo the bucket count",
+          "The order keys were added"
+        ],
+        "correct": 1,
+        "answer": "The hash, modulo the bucket count",
+        "answerAt": {
+          "turn": "t10",
+          "word": "hash"
+        },
+        "answerAtMs": 26906
+      },
+      "startMs": 24856,
+      "endMs": 29934
+    }
+  ],
+  "overlays": [
+    {
+      "id": "c1",
+      "type": "chip",
+      "anchor": {
+        "from": {
+          "turn": "t01",
+          "word": "hash map"
+        },
+        "to": {
+          "turn": "t01",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "text": "hash map",
+        "persist": true
+      },
+      "startMs": 670,
+      "endMs": 2996
+    },
+    {
+      "id": "c2",
+      "type": "chip",
+      "anchor": {
+        "from": {
+          "turn": "t02",
+          "word": "hash function"
+        },
+        "to": {
+          "turn": "t03",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "text": "hash function",
+        "persist": true
+      },
+      "startMs": 4946,
+      "endMs": 8123
+    },
+    {
+      "id": "c3",
+      "type": "chip",
+      "anchor": {
+        "from": {
+          "turn": "t04",
+          "word": "modulo"
+        },
+        "to": {
+          "turn": "t04",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "text": "modulo",
+        "persist": true
+      },
+      "startMs": 9823,
+      "endMs": 11117
+    },
+    {
+      "id": "c4",
+      "type": "chip",
+      "anchor": {
+        "from": {
+          "turn": "t08",
+          "word": "collision"
+        }
+      },
+      "props": {
+        "text": "collision",
+        "color": "#FFB020",
+        "persist": true
+      },
+      "startMs": 19238,
+      "endMs": 21738
+    }
+  ],
+  "world": {
+    "nodes": [
+      {
+        "id": "key",
+        "label": "key",
+        "value": "\"alice\"",
+        "x": 230,
+        "y": 260,
+        "revealAtMs": 3596,
+        "persist": true
+      },
+      {
+        "id": "hashfn",
+        "label": "hash()",
+        "sublabel": "function",
+        "x": 640,
+        "y": 260,
+        "shape": "pill",
+        "revealAtMs": 4946
+      },
+      {
+        "id": "hash",
+        "label": "hash",
+        "value": "7391",
+        "x": 1000,
+        "y": 260,
+        "revealAtMs": 6276,
+        "persist": true
+      },
+      {
+        "id": "index",
+        "label": "index",
+        "value": "7",
+        "x": 1000,
+        "y": 540,
+        "revealAtMs": 7803,
+        "persist": true
+      },
+      {
+        "id": "buckets",
+        "label": "buckets",
+        "sublabel": "8 slots",
+        "x": 1540,
+        "y": 540,
+        "revealAtMs": 7803
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "from": "key",
+        "to": "hashfn",
+        "revealAtMs": 4946
+      },
+      {
+        "id": "e2",
+        "from": "hashfn",
+        "to": "hash",
+        "revealAtMs": 6276
+      },
+      {
+        "id": "e3",
+        "from": "hash",
+        "to": "index",
+        "label": "% 8",
+        "revealAtMs": 7803
+      },
+      {
+        "id": "e4",
+        "from": "index",
+        "to": "buckets",
+        "label": "jump",
+        "revealAtMs": 7803
+      }
+    ]
+  },
+  "captions": {
+    "mode": "karaoke",
+    "maxCharsPerSecond": 17,
+    "minPageMs": 700
+  },
+  "rail": {
+    "waveform": false
+  }
+}

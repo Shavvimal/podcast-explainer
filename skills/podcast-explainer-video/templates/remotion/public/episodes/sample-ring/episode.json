@@ -1,0 +1,1001 @@
+{
+  "version": 1,
+  "id": "sample-ring",
+  "title": "A ring of servers",
+  "conceptAngle": "A ring of 8 positions: keys and servers share it, each key walks clockwise to its server, and a new server recolours one arc.",
+  "builtAt": "2026-11-02T21:18:06+00:00",
+  "timingSource": "placeholder",
+  "video": {
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "tailMs": 1000
+  },
+  "audio": {
+    "src": null,
+    "durationMs": 32735,
+    "sampleRate": 24000,
+    "scratch": false
+  },
+  "speakers": [
+    {
+      "id": "host",
+      "name": "Nia",
+      "voice": "Sulafat",
+      "color": "#4F8CFF",
+      "side": "left",
+      "role": "learner"
+    },
+    {
+      "id": "guest",
+      "name": "Theo",
+      "voice": "Iapetus",
+      "color": "#FFB020",
+      "side": "right",
+      "role": "expert"
+    }
+  ],
+  "segments": [
+    {
+      "id": "seg01",
+      "role": "mechanism",
+      "title": "Keys walk clockwise",
+      "startMs": 0,
+      "endMs": 21251
+    },
+    {
+      "id": "seg02",
+      "role": "compare",
+      "title": "Mod versus ring",
+      "startMs": 21251,
+      "endMs": 33735
+    }
+  ],
+  "turns": [
+    {
+      "id": "t01",
+      "speaker": "guest",
+      "segment": "seg01",
+      "text": "Put eight keys on a ring, then two servers, A at 3 and B at 7.",
+      "startMs": 250,
+      "endMs": 6404,
+      "onScreen": [],
+      "words": [
+        {
+          "text": "Put",
+          "startMs": 250,
+          "endMs": 660,
+          "source": "estimated"
+        },
+        {
+          "text": "eight",
+          "startMs": 660,
+          "endMs": 1276,
+          "source": "estimated"
+        },
+        {
+          "text": "keys",
+          "startMs": 1276,
+          "endMs": 1788,
+          "source": "estimated"
+        },
+        {
+          "text": "on",
+          "startMs": 1788,
+          "endMs": 2096,
+          "source": "estimated"
+        },
+        {
+          "text": "a",
+          "startMs": 2096,
+          "endMs": 2301,
+          "source": "estimated"
+        },
+        {
+          "text": "ring,",
+          "startMs": 2301,
+          "endMs": 2814,
+          "source": "estimated"
+        },
+        {
+          "text": "then",
+          "startMs": 2814,
+          "endMs": 3327,
+          "source": "estimated"
+        },
+        {
+          "text": "two",
+          "startMs": 3327,
+          "endMs": 3737,
+          "source": "estimated"
+        },
+        {
+          "text": "servers,",
+          "startMs": 3737,
+          "endMs": 4558,
+          "source": "estimated"
+        },
+        {
+          "text": "A",
+          "startMs": 4558,
+          "endMs": 4763,
+          "source": "estimated"
+        },
+        {
+          "text": "at",
+          "startMs": 4763,
+          "endMs": 5071,
+          "source": "estimated"
+        },
+        {
+          "text": "3",
+          "startMs": 5071,
+          "endMs": 5276,
+          "source": "estimated"
+        },
+        {
+          "text": "and",
+          "startMs": 5276,
+          "endMs": 5686,
+          "source": "estimated"
+        },
+        {
+          "text": "B",
+          "startMs": 5686,
+          "endMs": 5891,
+          "source": "estimated"
+        },
+        {
+          "text": "at",
+          "startMs": 5891,
+          "endMs": 6199,
+          "source": "estimated"
+        },
+        {
+          "text": "7.",
+          "startMs": 6199,
+          "endMs": 6404,
+          "source": "estimated"
+        }
+      ]
+    },
+    {
+      "id": "t02",
+      "speaker": "guest",
+      "segment": "seg01",
+      "text": "Key 1 walks clockwise and stops at A. Every key does the same walk.",
+      "startMs": 6654,
+      "endMs": 12039,
+      "onScreen": [
+        "walks clockwise"
+      ],
+      "words": [
+        {
+          "text": "Key",
+          "startMs": 6654,
+          "endMs": 6980,
+          "source": "estimated"
+        },
+        {
+          "text": "1",
+          "startMs": 6980,
+          "endMs": 7144,
+          "source": "estimated"
+        },
+        {
+          "text": "walks",
+          "startMs": 7144,
+          "endMs": 7633,
+          "source": "estimated"
+        },
+        {
+          "text": "clockwise",
+          "startMs": 7633,
+          "endMs": 8449,
+          "source": "estimated"
+        },
+        {
+          "text": "and",
+          "startMs": 8449,
+          "endMs": 8775,
+          "source": "estimated"
+        },
+        {
+          "text": "stops",
+          "startMs": 8775,
+          "endMs": 9265,
+          "source": "estimated"
+        },
+        {
+          "text": "at",
+          "startMs": 9265,
+          "endMs": 9510,
+          "source": "estimated"
+        },
+        {
+          "text": "A.",
+          "startMs": 9510,
+          "endMs": 9673,
+          "source": "estimated"
+        },
+        {
+          "text": "Every",
+          "startMs": 9673,
+          "endMs": 10162,
+          "source": "estimated"
+        },
+        {
+          "text": "key",
+          "startMs": 10162,
+          "endMs": 10489,
+          "source": "estimated"
+        },
+        {
+          "text": "does",
+          "startMs": 10489,
+          "endMs": 10897,
+          "source": "estimated"
+        },
+        {
+          "text": "the",
+          "startMs": 10897,
+          "endMs": 11223,
+          "source": "estimated"
+        },
+        {
+          "text": "same",
+          "startMs": 11223,
+          "endMs": 11631,
+          "source": "estimated"
+        },
+        {
+          "text": "walk.",
+          "startMs": 11631,
+          "endMs": 12039,
+          "source": "estimated"
+        }
+      ]
+    },
+    {
+      "id": "t03",
+      "speaker": "host",
+      "segment": "seg01",
+      "text": "So what happens when server C joins at 5?",
+      "startMs": 12289,
+      "endMs": 15751,
+      "onScreen": [],
+      "words": [
+        {
+          "text": "So",
+          "startMs": 12289,
+          "endMs": 12542,
+          "source": "estimated"
+        },
+        {
+          "text": "what",
+          "startMs": 12542,
+          "endMs": 12965,
+          "source": "estimated"
+        },
+        {
+          "text": "happens",
+          "startMs": 12965,
+          "endMs": 13640,
+          "source": "estimated"
+        },
+        {
+          "text": "when",
+          "startMs": 13640,
+          "endMs": 14062,
+          "source": "estimated"
+        },
+        {
+          "text": "server",
+          "startMs": 14062,
+          "endMs": 14653,
+          "source": "estimated"
+        },
+        {
+          "text": "C",
+          "startMs": 14653,
+          "endMs": 14822,
+          "source": "estimated"
+        },
+        {
+          "text": "joins",
+          "startMs": 14822,
+          "endMs": 15329,
+          "source": "estimated"
+        },
+        {
+          "text": "at",
+          "startMs": 15329,
+          "endMs": 15582,
+          "source": "estimated"
+        },
+        {
+          "text": "5?",
+          "startMs": 15582,
+          "endMs": 15751,
+          "source": "estimated"
+        }
+      ]
+    },
+    {
+      "id": "t04",
+      "speaker": "guest",
+      "segment": "seg01",
+      "text": "Only keys 4 and 5 move, from B to C. The rest stay.",
+      "startMs": 16001,
+      "endMs": 21001,
+      "onScreen": [],
+      "words": [
+        {
+          "text": "Only",
+          "startMs": 16001,
+          "endMs": 16511,
+          "source": "estimated"
+        },
+        {
+          "text": "keys",
+          "startMs": 16511,
+          "endMs": 17021,
+          "source": "estimated"
+        },
+        {
+          "text": "4",
+          "startMs": 17021,
+          "endMs": 17225,
+          "source": "estimated"
+        },
+        {
+          "text": "and",
+          "startMs": 17225,
+          "endMs": 17634,
+          "source": "estimated"
+        },
+        {
+          "text": "5",
+          "startMs": 17634,
+          "endMs": 17838,
+          "source": "estimated"
+        },
+        {
+          "text": "move,",
+          "startMs": 17838,
+          "endMs": 18348,
+          "source": "estimated"
+        },
+        {
+          "text": "from",
+          "startMs": 18348,
+          "endMs": 18858,
+          "source": "estimated"
+        },
+        {
+          "text": "B",
+          "startMs": 18858,
+          "endMs": 19062,
+          "source": "estimated"
+        },
+        {
+          "text": "to",
+          "startMs": 19062,
+          "endMs": 19368,
+          "source": "estimated"
+        },
+        {
+          "text": "C.",
+          "startMs": 19368,
+          "endMs": 19572,
+          "source": "estimated"
+        },
+        {
+          "text": "The",
+          "startMs": 19572,
+          "endMs": 19981,
+          "source": "estimated"
+        },
+        {
+          "text": "rest",
+          "startMs": 19981,
+          "endMs": 20491,
+          "source": "estimated"
+        },
+        {
+          "text": "stay.",
+          "startMs": 20491,
+          "endMs": 21001,
+          "source": "estimated"
+        }
+      ]
+    },
+    {
+      "id": "t05",
+      "speaker": "host",
+      "segment": "seg02",
+      "text": "And with mod 2 going to mod 3?",
+      "startMs": 21251,
+      "endMs": 24328,
+      "onScreen": [],
+      "words": [
+        {
+          "text": "And",
+          "startMs": 21251,
+          "endMs": 21661,
+          "source": "estimated"
+        },
+        {
+          "text": "with",
+          "startMs": 21661,
+          "endMs": 22174,
+          "source": "estimated"
+        },
+        {
+          "text": "mod",
+          "startMs": 22174,
+          "endMs": 22584,
+          "source": "estimated"
+        },
+        {
+          "text": "2",
+          "startMs": 22584,
+          "endMs": 22790,
+          "source": "estimated"
+        },
+        {
+          "text": "going",
+          "startMs": 22790,
+          "endMs": 23405,
+          "source": "estimated"
+        },
+        {
+          "text": "to",
+          "startMs": 23405,
+          "endMs": 23713,
+          "source": "estimated"
+        },
+        {
+          "text": "mod",
+          "startMs": 23713,
+          "endMs": 24123,
+          "source": "estimated"
+        },
+        {
+          "text": "3?",
+          "startMs": 24123,
+          "endMs": 24328,
+          "source": "estimated"
+        }
+      ]
+    },
+    {
+      "id": "t06",
+      "speaker": "guest",
+      "segment": "seg02",
+      "text": "Mod moves 4 of 8 keys. The ring moved 2 of 8.",
+      "startMs": 24578,
+      "endMs": 29193,
+      "onScreen": [],
+      "words": [
+        {
+          "text": "Mod",
+          "startMs": 24578,
+          "endMs": 24998,
+          "source": "estimated"
+        },
+        {
+          "text": "moves",
+          "startMs": 24998,
+          "endMs": 25627,
+          "source": "estimated"
+        },
+        {
+          "text": "4",
+          "startMs": 25627,
+          "endMs": 25837,
+          "source": "estimated"
+        },
+        {
+          "text": "of",
+          "startMs": 25837,
+          "endMs": 26151,
+          "source": "estimated"
+        },
+        {
+          "text": "8",
+          "startMs": 26151,
+          "endMs": 26361,
+          "source": "estimated"
+        },
+        {
+          "text": "keys.",
+          "startMs": 26361,
+          "endMs": 26886,
+          "source": "estimated"
+        },
+        {
+          "text": "The",
+          "startMs": 26886,
+          "endMs": 27305,
+          "source": "estimated"
+        },
+        {
+          "text": "ring",
+          "startMs": 27305,
+          "endMs": 27829,
+          "source": "estimated"
+        },
+        {
+          "text": "moved",
+          "startMs": 27829,
+          "endMs": 28459,
+          "source": "estimated"
+        },
+        {
+          "text": "2",
+          "startMs": 28459,
+          "endMs": 28669,
+          "source": "estimated"
+        },
+        {
+          "text": "of",
+          "startMs": 28669,
+          "endMs": 28983,
+          "source": "estimated"
+        },
+        {
+          "text": "8.",
+          "startMs": 28983,
+          "endMs": 29193,
+          "source": "estimated"
+        }
+      ]
+    },
+    {
+      "id": "t07",
+      "speaker": "host",
+      "segment": "seg02",
+      "text": "And the loads stay close to even.",
+      "startMs": 29443,
+      "endMs": 32135,
+      "onScreen": [],
+      "words": [
+        {
+          "text": "And",
+          "startMs": 29443,
+          "endMs": 29769,
+          "source": "estimated"
+        },
+        {
+          "text": "the",
+          "startMs": 29769,
+          "endMs": 30096,
+          "source": "estimated"
+        },
+        {
+          "text": "loads",
+          "startMs": 30096,
+          "endMs": 30585,
+          "source": "estimated"
+        },
+        {
+          "text": "stay",
+          "startMs": 30585,
+          "endMs": 30993,
+          "source": "estimated"
+        },
+        {
+          "text": "close",
+          "startMs": 30993,
+          "endMs": 31482,
+          "source": "estimated"
+        },
+        {
+          "text": "to",
+          "startMs": 31482,
+          "endMs": 31727,
+          "source": "estimated"
+        },
+        {
+          "text": "even.",
+          "startMs": 31727,
+          "endMs": 32135,
+          "source": "estimated"
+        }
+      ]
+    }
+  ],
+  "holds": [],
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "world",
+      "anchor": {
+        "from": {
+          "turn": "t01"
+        },
+        "to": {
+          "turn": "t04"
+        }
+      },
+      "props": {
+        "steps": [
+          {
+            "at": {
+              "turn": "t01",
+              "word": "eight keys"
+            },
+            "reveal": [
+              "k0",
+              "k1",
+              "k2",
+              "k3",
+              "k4",
+              "k5",
+              "k6",
+              "k7"
+            ],
+            "atMs": 660
+          },
+          {
+            "at": {
+              "turn": "t01",
+              "word": "A at"
+            },
+            "reveal": [
+              "A"
+            ],
+            "atMs": 4558
+          },
+          {
+            "at": {
+              "turn": "t01",
+              "word": "B at"
+            },
+            "reveal": [
+              "B"
+            ],
+            "atMs": 5686
+          },
+          {
+            "at": {
+              "turn": "t02",
+              "word": "Key 1"
+            },
+            "walk": [
+              "k1"
+            ],
+            "reveal": [
+              "note"
+            ],
+            "atMs": 6654
+          },
+          {
+            "at": {
+              "turn": "t02",
+              "word": "Every key"
+            },
+            "note": "each key: next server clockwise",
+            "atMs": 9673
+          }
+        ]
+      },
+      "startMs": 0,
+      "endMs": 15751
+    },
+    {
+      "id": "s02",
+      "type": "custom",
+      "anchor": {
+        "from": {
+          "turn": "t04"
+        },
+        "to": {
+          "turn": "t05"
+        }
+      },
+      "props": {
+        "component": "RingLoad",
+        "title": "C joins at 5",
+        "worldSteps": [
+          {
+            "at": {
+              "turn": "t04",
+              "word": "Only keys"
+            },
+            "reveal": [
+              "C"
+            ],
+            "atMs": 16001
+          }
+        ]
+      },
+      "startMs": 15751,
+      "endMs": 21001,
+      "enterLeadMs": 250
+    },
+    {
+      "id": "s03",
+      "type": "compare",
+      "anchor": {
+        "from": {
+          "turn": "t05"
+        }
+      },
+      "props": {
+        "left": {
+          "title": "hash mod N",
+          "tag": "naive",
+          "kind": "table",
+          "columns": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+          ],
+          "valueColors": {
+            "A": "#5BD69A",
+            "B": "#C792EA",
+            "C": "#FF7A7A"
+          },
+          "rows": [
+            {
+              "id": "m2",
+              "label": "mod 2",
+              "cells": [
+                "A",
+                "B",
+                "A",
+                "B",
+                "A",
+                "B",
+                "A",
+                "B"
+              ],
+              "at": {
+                "turn": "t05"
+              },
+              "atMs": 21251
+            },
+            {
+              "id": "m3",
+              "label": "mod 3",
+              "cells": [
+                "A",
+                "B",
+                "C",
+                "A",
+                "B",
+                "C",
+                "A",
+                "B"
+              ],
+              "at": {
+                "turn": "t05",
+                "word": "mod 3"
+              },
+              "atMs": 23713
+            }
+          ],
+          "steps": [
+            {
+              "at": {
+                "turn": "t05"
+              },
+              "fill": {
+                "m2": "all",
+                "m3": []
+              },
+              "atMs": 21251
+            },
+            {
+              "at": {
+                "turn": "t06",
+                "word": "Mod moves"
+              },
+              "fill": {
+                "m3": "all"
+              },
+              "marks": {
+                "m3": [
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              },
+              "stat": {
+                "text": "moved: 4 of 8",
+                "claim": {
+                  "kind": "count",
+                  "value": 4,
+                  "of": 8,
+                  "scope": "columns-changed",
+                  "side": "left"
+                }
+              },
+              "atMs": 24578
+            }
+          ]
+        },
+        "right": {
+          "title": "hash ring",
+          "tag": "ring",
+          "kind": "world",
+          "world": "shared",
+          "steps": [
+            {
+              "at": {
+                "turn": "t06",
+                "word": "The ring"
+              },
+              "arcs": [
+                {
+                  "from": 4,
+                  "to": 5
+                }
+              ],
+              "stat": "moved: 2 of 8",
+              "atMs": 26886
+            }
+          ]
+        },
+        "verdict": {
+          "text": "Ring: 2 of 8 move. Mod: 4 of 8 move.",
+          "winner": "right",
+          "at": {
+            "turn": "t06",
+            "word": "2 of 8"
+          },
+          "atMs": 28459
+        }
+      },
+      "startMs": 21001,
+      "endMs": 33735,
+      "enterLeadMs": 250
+    }
+  ],
+  "overlays": [],
+  "world": {
+    "layout": "ring",
+    "ring": {
+      "positions": 8,
+      "r": 150,
+      "ownershipAt": {
+        "turn": "t02",
+        "word": "Every key"
+      },
+      "ownershipAtMs": 9673
+    },
+    "nodes": [
+      {
+        "id": "k0",
+        "label": "0",
+        "pos": 0,
+        "role": "item",
+        "x": 864.0,
+        "y": 206.0,
+        "revealAtMs": 660
+      },
+      {
+        "id": "k1",
+        "label": "1",
+        "pos": 1,
+        "role": "item",
+        "x": 970.07,
+        "y": 249.93,
+        "revealAtMs": 660
+      },
+      {
+        "id": "k2",
+        "label": "2",
+        "pos": 2,
+        "role": "item",
+        "x": 1014.0,
+        "y": 356.0,
+        "revealAtMs": 660
+      },
+      {
+        "id": "k3",
+        "label": "3",
+        "pos": 3,
+        "role": "item",
+        "x": 970.07,
+        "y": 462.07,
+        "revealAtMs": 660
+      },
+      {
+        "id": "k4",
+        "label": "4",
+        "pos": 4,
+        "role": "item",
+        "x": 864.0,
+        "y": 506.0,
+        "revealAtMs": 660
+      },
+      {
+        "id": "k5",
+        "label": "5",
+        "pos": 5,
+        "role": "item",
+        "x": 757.93,
+        "y": 462.07,
+        "revealAtMs": 660
+      },
+      {
+        "id": "k6",
+        "label": "6",
+        "pos": 6,
+        "role": "item",
+        "x": 714.0,
+        "y": 356.0,
+        "revealAtMs": 660
+      },
+      {
+        "id": "k7",
+        "label": "7",
+        "pos": 7,
+        "role": "item",
+        "x": 757.93,
+        "y": 249.93,
+        "revealAtMs": 660
+      },
+      {
+        "id": "A",
+        "label": "A",
+        "pos": 3,
+        "role": "owner",
+        "ringOffset": 92,
+        "color": "#5BD69A",
+        "x": 1035.12,
+        "y": 527.12,
+        "revealAtMs": 4558
+      },
+      {
+        "id": "B",
+        "label": "B",
+        "pos": 7,
+        "role": "owner",
+        "ringOffset": 92,
+        "color": "#C792EA",
+        "x": 692.88,
+        "y": 184.88,
+        "revealAtMs": 5686
+      },
+      {
+        "id": "C",
+        "label": "C",
+        "pos": 5,
+        "role": "owner",
+        "ringOffset": 92,
+        "color": "#FF7A7A",
+        "x": 692.88,
+        "y": 527.12,
+        "revealAtMs": 16001
+      },
+      {
+        "id": "note",
+        "label": "Owner rule",
+        "sublabel": "walks clockwise",
+        "x": 360,
+        "y": 356,
+        "w": 420,
+        "revealAtMs": 6654
+      }
+    ],
+    "edges": []
+  },
+  "captions": {
+    "mode": "karaoke",
+    "maxCharsPerSecond": 17,
+    "minPageMs": 700
+  },
+  "rail": {
+    "waveform": false
+  }
+}

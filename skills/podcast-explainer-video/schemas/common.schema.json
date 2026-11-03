@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "common.schema.json",
+  "title": "podcast-explainer-video shared definitions",
+  "description": "Definitions that several schemas share. The segment role enum lives here and only here: outline.schema.json and script.schema.json reference it, validate_script.py reads it, and references/learning-design.md section 4 describes each role.",
+  "$defs": {
+    "role": {
+      "type": "string",
+      "description": "Segment role. hook: cold open, puzzle and prediction. puzzle: a second puzzle or the series question. roadmap: the questions the episode answers. plain: the whole idea in everyday words, no terms. terms: name the parts already understood (plain meaning first, then the term). example: one worked example, step by step. mechanism: the causal steps or the formal rule. misconception: the wrong model voiced, shown to fail, corrected. analogy: one analogy, mapped, with where it breaks. transfer: the model in a new context. compare: against a neighbour concept. scale: edge cases and limits. check: retrieval question with a hold. recap: the learner explains back. selftest: hands the work to the learner (learn/ files, next-time question).",
+      "enum": [
+        "hook",
+        "puzzle",
+        "roadmap",
+        "plain",
+        "terms",
+        "example",
+        "mechanism",
+        "misconception",
+        "analogy",
+        "transfer",
+        "compare",
+        "scale",
+        "check",
+        "recap",
+        "selftest"
+      ]
+    },
+    "pause": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "prompt"
+      ],
+      "description": "A pause-and-think cue on a turn. The video shows the prompt card with a countdown ring for the turn's holdAfterMs, after the turn ends.",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "predict",
+            "retrieve",
+            "explain-back"
+          ]
+        },
+        "prompt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 90,
+          "description": "Short question shown on the card, at most about 12 words."
+        }
+      }
+    },
+    "newTermLimits": {
+      "type": "object",
+      "description": "THE authoritative new-term limits (A05). Per episode by depth; for deep, per part of a series. Per segment at most `perSegment`. validate_script.py reads the default below (W20); outline.schema.json newTerms maxItems equals perSegment; references/depth.md, learning-design.md and script.md quote these numbers and point here.",
+      "default": {"quick": 3, "standard": 5, "deep": 5, "perSegment": 4}
+    },
+    "holdAfterMs": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 15000,
+      "default": 0,
+      "description": "Extra silence after the turn, in ms, so the learner can think. 6000 to 8000 for a prediction or retrieval pause. tts.py adds it after the normal gap and records it in timing.json."
+    }
+  }
+}

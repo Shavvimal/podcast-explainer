@@ -1,0 +1,316 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "library-index.schema.json",
+  "title": "podcast-explainer-video library/index.json",
+  "description": "One record per finished episode. Written by scripts/transcript.py (record replaced by slug, sorted by slug); learn fields (learningGoal, misconceptions, learn, selfTest, cards, openGaps) are written by whichever of transcript.py and learn.py runs last, from the same function, so the order of the two scripts does not matter. Read by scripts/search.py. See references/library.md. Time units: fields ending in Ms are integer milliseconds; startSec, durationSec and the selfTest/cards field `t` are integer SECONDS (floored), named for display and #t= deep links; `at` is an mm:ss label.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "episodes"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "episodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/episode"
+      }
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 60
+    },
+    "episode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slug",
+        "title",
+        "concept",
+        "tags",
+        "date",
+        "depth",
+        "series",
+        "durationSec",
+        "speakers",
+        "chapters",
+        "glossary",
+        "mp4",
+        "transcript",
+        "libraryFile"
+      ],
+      "properties": {
+        "slug": {
+          "$ref": "#/$defs/slug"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "concept": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9 ._/-]*$"
+          }
+        },
+        "date": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "description": "First generation date. Kept on reruns unless --date replaces it."
+        },
+        "depth": {
+          "type": "string",
+          "enum": [
+            "quick",
+            "standard",
+            "deep"
+          ]
+        },
+        "series": {
+          "description": "Set when the episode is one part of a deep series. null otherwise.",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "part"
+              ],
+              "properties": {
+                "id": {
+                  "$ref": "#/$defs/slug"
+                },
+                "part": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
+                },
+                "of": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
+                }
+              }
+            }
+          ]
+        },
+        "durationSec": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "speakers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "chapters": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "index",
+              "title",
+              "startMs",
+              "startSec",
+              "at"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "index": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "title": {
+                "type": "string"
+              },
+              "startMs": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "startSec": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "at": {
+                "type": "string",
+                "pattern": "^[0-9]{2,}:[0-5][0-9]$",
+                "description": "[mm:ss] label without brackets."
+              }
+            }
+          }
+        },
+        "glossary": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mp4": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Absolute path of the rendered video, or null before render."
+        },
+        "transcript": {
+          "type": "string",
+          "description": "Absolute path of <workspace>/<slug>/transcript.md."
+        },
+        "libraryFile": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+\\.md$",
+          "description": "File name inside the library folder."
+        },
+        "learningGoal": {
+          "type": "string",
+          "description": "script.json (else outline.json) learningObjective."
+        },
+        "misconceptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The episode's misconception claims (learn.json summary.misconception.claim)."
+        },
+        "learn": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "dir",
+            "selfTest",
+            "teachBack",
+            "cards",
+            "summary",
+            "gapLog"
+          ],
+          "description": "Absolute paths of the learn/ files in the episode folder, plus the library copy folder relative to the library.",
+          "properties": {
+            "dir": {
+              "type": "string"
+            },
+            "selfTest": {
+              "type": "string"
+            },
+            "teachBack": {
+              "type": "string"
+            },
+            "cards": {
+              "type": "string"
+            },
+            "summary": {
+              "type": "string"
+            },
+            "gapLog": {
+              "type": "string"
+            },
+            "libraryDir": {
+              "type": "string"
+            }
+          }
+        },
+        "selfTest": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "question",
+              "level",
+              "answer",
+              "segment",
+              "turn",
+              "t"
+            ],
+            "properties": {
+              "question": {
+                "type": "string"
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "remember",
+                  "understand",
+                  "apply",
+                  "analyse",
+                  "compare",
+                  "transfer"
+                ]
+              },
+              "answer": {
+                "type": "string"
+              },
+              "segment": {
+                "type": "string"
+              },
+              "turn": {
+                "type": "string"
+              },
+              "t": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Integer SECONDS (not ms): start of the cited turn, floored. Use it for #t= deep links."
+              }
+            }
+          }
+        },
+        "cards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "front",
+              "back",
+              "t"
+            ],
+            "properties": {
+              "front": {
+                "type": "string"
+              },
+              "back": {
+                "type": "string"
+              },
+              "turn": {
+                "type": "string"
+              },
+              "t": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Integer SECONDS (not ms): start of the cited turn, floored. Use it for #t= deep links."
+              }
+            }
+          }
+        },
+        "openGaps": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Rows with status open in learn/gaplog.md when learn.py last ran."
+        }
+      }
+    }
+  }
+}

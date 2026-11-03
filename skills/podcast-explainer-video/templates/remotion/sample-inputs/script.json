@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "id": "sample",
+  "title": "How a hash map finds a key",
+  "speakers": [
+    {"id": "host", "name": "Nia", "voice": "Sulafat", "color": "#4F8CFF", "side": "left", "role": "learner"},
+    {"id": "guest", "name": "Theo", "voice": "Iapetus", "color": "#FFB020", "side": "right", "role": "expert"}
+  ],
+  "segments": [
+    {"id": "seg01", "role": "hook", "title": "The puzzle", "learningGoal": "Notice that lookup does not search.", "visualPlan": "Title card with the question.",
+     "turns": [
+      {"id": "t01", "speaker": "host", "text": "Why can a hash map find one key among a million in one step?", "style": "", "onScreen": ["hash map"], "factIds": []}
+     ]},
+    {"id": "seg02", "role": "mechanism", "title": "Hash, then jump", "learningGoal": "A hash function maps a key to a bucket index.", "visualPlan": "World: key -> hash function -> index -> buckets.",
+     "turns": [
+      {"id": "t02", "speaker": "guest", "text": "It never searches. A hash function turns the key into a number.", "style": "", "onScreen": ["hash function"], "factIds": []},
+      {"id": "t03", "speaker": "host", "text": "And that number picks the bucket?", "style": "", "onScreen": ["bucket"], "factIds": []},
+      {"id": "t04", "speaker": "guest", "text": "Yes. The index is the hash modulo the bucket count.", "style": "", "onScreen": ["modulo"], "factIds": []},
+      {"id": "t05", "speaker": "host", "text": "What does that look like in code?", "style": "", "onScreen": [], "factIds": []},
+      {"id": "t06", "speaker": "guest", "text": "Python hashes the key, then reads one slot of an array.", "style": "", "onScreen": ["slot"], "factIds": []}
+     ]},
+    {"id": "seg03", "role": "misconception", "title": "Collisions", "learningGoal": "Two keys can share a bucket; the bucket keeps a chain.", "visualPlan": "Diagram, then buckets filling.",
+     "turns": [
+      {"id": "t07", "speaker": "host", "text": "Two keys can share a bucket, right?", "style": "", "onScreen": [], "factIds": []},
+      {"id": "t08", "speaker": "guest", "text": "Right, that is a collision, and the bucket keeps a short chain.", "style": "", "onScreen": ["collision"], "factIds": []}
+     ]},
+    {"id": "seg04", "role": "recap", "title": "Recap", "learningGoal": "Restate the lookup path.", "visualPlan": "Recap card, then check card.",
+     "turns": [
+      {"id": "t09", "speaker": "host", "text": "So: hash, jump, check a short chain.", "style": "", "onScreen": [], "factIds": []},
+      {"id": "t10", "speaker": "guest", "text": "Quick check. What picks the bucket? The hash, modulo the bucket count.", "style": "", "onScreen": [], "factIds": []}
+     ]}
+  ]
+}

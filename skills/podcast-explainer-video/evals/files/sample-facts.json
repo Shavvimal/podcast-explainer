@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "id": "hash-maps",
+  "concept": "How a hash map finds a key without scanning, and why it resizes",
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Java SE 21 API: java.util.HashMap",
+      "url": "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HashMap.html",
+      "retrieved": "2026-11-02"
+    }
+  ],
+  "facts": [
+    {
+      "id": "f1",
+      "kind": "illustrative",
+      "claim": "A dictionary with a million entries is an example size for the hook, not a measured result.",
+      "numbers": ["a million"],
+      "label": "Example data"
+    },
+    {
+      "id": "f2",
+      "kind": "sourced",
+      "claim": "A Java HashMap starts with 16 buckets by default.",
+      "numbers": ["16"],
+      "sourceId": "s1",
+      "quote": "Constructs an empty HashMap with the default initial capacity (16) and the default load factor (0.75)."
+    },
+    {
+      "id": "f3",
+      "kind": "sourced",
+      "claim": "The default load factor of a Java HashMap is 0.75.",
+      "numbers": ["0.75"],
+      "sourceId": "s1",
+      "quote": "Constructs an empty HashMap with the default initial capacity (16) and the default load factor (0.75)."
+    },
+    {
+      "id": "f4",
+      "kind": "arithmetic",
+      "claim": "With 16 buckets and load factor 0.75, the table resizes once it holds more than 12 entries.",
+      "numbers": ["12"],
+      "derivedFrom": ["f2", "f3", "f5"],
+      "working": "16 x 0.75 = 12; resize when entries exceed 12"
+    },
+    {
+      "id": "f5",
+      "kind": "sourced",
+      "claim": "When entries exceed load factor times capacity, the table is rebuilt with about twice the number of buckets.",
+      "numbers": [],
+      "sourceId": "s1",
+      "quote": "When the number of entries in the hash table exceeds the product of the load factor and the current capacity, the hash table is rehashed (that is, internal data structures are rebuilt) so that the hash table has approximately twice the number of buckets."
+    },
+    {
+      "id": "f6",
+      "kind": "arithmetic",
+      "claim": "Doubling 16 buckets gives 32 buckets.",
+      "numbers": ["32"],
+      "derivedFrom": ["f2", "f5"],
+      "working": "16 x 2 = 32"
+    },
+    {
+      "id": "f7",
+      "kind": "illustrative",
+      "claim": "100 keys with the same hash is an example for the retrieval question.",
+      "numbers": ["100"],
+      "label": "Example data"
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "m1",
+      "statement": "The hash gives every key its own slot, so keys never share a slot.",
+      "correction": "There are far more possible keys than buckets, so keys collide and a bucket holds a short list.",
+      "factIds": ["f2"]
+    }
+  ],
+  "analogies": []
+}

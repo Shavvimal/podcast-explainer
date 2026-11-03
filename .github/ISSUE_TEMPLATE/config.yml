@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/Shavvimal/podcast-explainer/security/advisories/new
+    about: Report security problems privately, not as a public issue. See SECURITY.md.
+  - name: Question or idea
+    url: https://github.com/Shavvimal/podcast-explainer#readme
+    about: Read the README and SKILL.md for usage and the workflow before filing an issue.

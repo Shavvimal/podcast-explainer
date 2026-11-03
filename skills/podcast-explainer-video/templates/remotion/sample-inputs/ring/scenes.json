@@ -1,0 +1,332 @@
+{
+  "version": 1,
+  "conceptAngle": "A ring of 8 positions: keys and servers share it, each key walks clockwise to its server, and a new server recolours one arc.",
+  "world": {
+    "layout": "ring",
+    "ring": {
+      "positions": 8,
+      "r": 150,
+      "ownershipAt": {
+        "turn": "t02",
+        "word": "Every key"
+      }
+    },
+    "nodes": [
+      {
+        "id": "k0",
+        "label": "0",
+        "pos": 0,
+        "role": "item"
+      },
+      {
+        "id": "k1",
+        "label": "1",
+        "pos": 1,
+        "role": "item"
+      },
+      {
+        "id": "k2",
+        "label": "2",
+        "pos": 2,
+        "role": "item"
+      },
+      {
+        "id": "k3",
+        "label": "3",
+        "pos": 3,
+        "role": "item"
+      },
+      {
+        "id": "k4",
+        "label": "4",
+        "pos": 4,
+        "role": "item"
+      },
+      {
+        "id": "k5",
+        "label": "5",
+        "pos": 5,
+        "role": "item"
+      },
+      {
+        "id": "k6",
+        "label": "6",
+        "pos": 6,
+        "role": "item"
+      },
+      {
+        "id": "k7",
+        "label": "7",
+        "pos": 7,
+        "role": "item"
+      },
+      {
+        "id": "A",
+        "label": "A",
+        "pos": 3,
+        "role": "owner",
+        "ringOffset": 92,
+        "color": "#5BD69A"
+      },
+      {
+        "id": "B",
+        "label": "B",
+        "pos": 7,
+        "role": "owner",
+        "ringOffset": 92,
+        "color": "#C792EA"
+      },
+      {
+        "id": "C",
+        "label": "C",
+        "pos": 5,
+        "role": "owner",
+        "ringOffset": 92,
+        "color": "#FF7A7A"
+      },
+      {
+        "id": "note",
+        "label": "Owner rule",
+        "sublabel": "walks clockwise",
+        "x": 360,
+        "y": 356,
+        "w": 420
+      }
+    ],
+    "edges": []
+  },
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "world",
+      "anchor": {
+        "from": {
+          "turn": "t01"
+        },
+        "to": {
+          "turn": "t04"
+        }
+      },
+      "props": {
+        "steps": [
+          {
+            "at": {
+              "turn": "t01",
+              "word": "eight keys"
+            },
+            "reveal": [
+              "k0",
+              "k1",
+              "k2",
+              "k3",
+              "k4",
+              "k5",
+              "k6",
+              "k7"
+            ]
+          },
+          {
+            "at": {
+              "turn": "t01",
+              "word": "A at"
+            },
+            "reveal": [
+              "A"
+            ]
+          },
+          {
+            "at": {
+              "turn": "t01",
+              "word": "B at"
+            },
+            "reveal": [
+              "B"
+            ]
+          },
+          {
+            "at": {
+              "turn": "t02",
+              "word": "Key 1"
+            },
+            "walk": [
+              "k1"
+            ],
+            "reveal": [
+              "note"
+            ]
+          },
+          {
+            "at": {
+              "turn": "t02",
+              "word": "Every key"
+            },
+            "note": "each key: next server clockwise"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s02",
+      "type": "custom",
+      "anchor": {
+        "from": {
+          "turn": "t04"
+        },
+        "to": {
+          "turn": "t05"
+        }
+      },
+      "props": {
+        "component": "RingLoad",
+        "title": "C joins at 5",
+        "worldSteps": [
+          {
+            "at": {
+              "turn": "t04",
+              "word": "Only keys"
+            },
+            "reveal": [
+              "C"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03",
+      "type": "compare",
+      "anchor": {
+        "from": {
+          "turn": "t05"
+        }
+      },
+      "props": {
+        "left": {
+          "title": "hash mod N",
+          "tag": "naive",
+          "kind": "table",
+          "columns": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+          ],
+          "valueColors": {
+            "A": "#5BD69A",
+            "B": "#C792EA",
+            "C": "#FF7A7A"
+          },
+          "rows": [
+            {
+              "id": "m2",
+              "label": "mod 2",
+              "cells": [
+                "A",
+                "B",
+                "A",
+                "B",
+                "A",
+                "B",
+                "A",
+                "B"
+              ],
+              "at": {
+                "turn": "t05"
+              }
+            },
+            {
+              "id": "m3",
+              "label": "mod 3",
+              "cells": [
+                "A",
+                "B",
+                "C",
+                "A",
+                "B",
+                "C",
+                "A",
+                "B"
+              ],
+              "at": {
+                "turn": "t05",
+                "word": "mod 3"
+              }
+            }
+          ],
+          "steps": [
+            {
+              "at": {
+                "turn": "t05"
+              },
+              "fill": {
+                "m2": "all",
+                "m3": []
+              }
+            },
+            {
+              "at": {
+                "turn": "t06",
+                "word": "Mod moves"
+              },
+              "fill": {
+                "m3": "all"
+              },
+              "marks": {
+                "m3": [
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              },
+              "stat": {
+                "text": "moved: 4 of 8",
+                "claim": {
+                  "kind": "count",
+                  "value": 4,
+                  "of": 8,
+                  "scope": "columns-changed",
+                  "side": "left"
+                }
+              }
+            }
+          ]
+        },
+        "right": {
+          "title": "hash ring",
+          "tag": "ring",
+          "kind": "world",
+          "world": "shared",
+          "steps": [
+            {
+              "at": {
+                "turn": "t06",
+                "word": "The ring"
+              },
+              "arcs": [
+                {
+                  "from": 4,
+                  "to": 5
+                }
+              ],
+              "stat": "moved: 2 of 8"
+            }
+          ]
+        },
+        "verdict": {
+          "text": "Ring: 2 of 8 move. Mod: 4 of 8 move.",
+          "winner": "right",
+          "at": {
+            "turn": "t06",
+            "word": "2 of 8"
+          }
+        }
+      }
+    }
+  ],
+  "overlays": []
+}

@@ -1,0 +1,717 @@
+{
+  "version": 1,
+  "model": "macos-say",
+  "mode": "per-turn",
+  "scratch": true,
+  "sampleRate": 24000,
+  "gapMs": 250,
+  "tailPadMs": 600,
+  "durationMs": 29234,
+  "turns": [
+    {
+      "id": "t01",
+      "speaker": "host",
+      "segment": "seg01",
+      "file": "audio/turn-t01.wav",
+      "startMs": 250,
+      "endMs": 2996,
+      "words": [
+        {
+          "text": "Why",
+          "startMs": 260,
+          "endMs": 490,
+          "source": "asr"
+        },
+        {
+          "text": "can",
+          "startMs": 490,
+          "endMs": 610,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 610,
+          "endMs": 670,
+          "source": "asr"
+        },
+        {
+          "text": "hash",
+          "startMs": 670,
+          "endMs": 920,
+          "source": "asr"
+        },
+        {
+          "text": "map",
+          "startMs": 920,
+          "endMs": 1200,
+          "source": "asr"
+        },
+        {
+          "text": "find",
+          "startMs": 1200,
+          "endMs": 1350,
+          "source": "asr"
+        },
+        {
+          "text": "one",
+          "startMs": 1350,
+          "endMs": 1530,
+          "source": "asr"
+        },
+        {
+          "text": "key",
+          "startMs": 1530,
+          "endMs": 1770,
+          "source": "asr"
+        },
+        {
+          "text": "among",
+          "startMs": 1770,
+          "endMs": 2000,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 2000,
+          "endMs": 2040,
+          "source": "asr"
+        },
+        {
+          "text": "million",
+          "startMs": 2040,
+          "endMs": 2370,
+          "source": "asr"
+        },
+        {
+          "text": "in",
+          "startMs": 2370,
+          "endMs": 2490,
+          "source": "asr"
+        },
+        {
+          "text": "one",
+          "startMs": 2490,
+          "endMs": 2670,
+          "source": "asr"
+        },
+        {
+          "text": "step?",
+          "startMs": 2670,
+          "endMs": 2950,
+          "source": "asr"
+        }
+      ],
+      "matchRate": 1
+    },
+    {
+      "id": "t02",
+      "speaker": "guest",
+      "segment": "seg02",
+      "file": "audio/turn-t02.wav",
+      "startMs": 3596,
+      "endMs": 6643,
+      "words": [
+        {
+          "text": "It",
+          "startMs": 3596,
+          "endMs": 3746,
+          "source": "asr"
+        },
+        {
+          "text": "never",
+          "startMs": 3746,
+          "endMs": 4136,
+          "source": "asr"
+        },
+        {
+          "text": "searches.",
+          "startMs": 4136,
+          "endMs": 4836,
+          "source": "asr"
+        },
+        {
+          "text": "A",
+          "startMs": 4836,
+          "endMs": 4946,
+          "source": "asr"
+        },
+        {
+          "text": "hash",
+          "startMs": 4946,
+          "endMs": 5126,
+          "source": "asr"
+        },
+        {
+          "text": "function",
+          "startMs": 5126,
+          "endMs": 5496,
+          "source": "asr"
+        },
+        {
+          "text": "turns",
+          "startMs": 5496,
+          "endMs": 5756,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 5756,
+          "endMs": 5906,
+          "source": "asr"
+        },
+        {
+          "text": "key",
+          "startMs": 5906,
+          "endMs": 6036,
+          "source": "asr"
+        },
+        {
+          "text": "into",
+          "startMs": 6036,
+          "endMs": 6236,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 6236,
+          "endMs": 6276,
+          "source": "asr"
+        },
+        {
+          "text": "number.",
+          "startMs": 6276,
+          "endMs": 6643,
+          "source": "asr"
+        }
+      ],
+      "matchRate": 1
+    },
+    {
+      "id": "t03",
+      "speaker": "host",
+      "segment": "seg02",
+      "file": "audio/turn-t03.wav",
+      "startMs": 6893,
+      "endMs": 8123,
+      "words": [
+        {
+          "text": "And",
+          "startMs": 6893,
+          "endMs": 7023,
+          "source": "asr"
+        },
+        {
+          "text": "that",
+          "startMs": 7023,
+          "endMs": 7193,
+          "source": "asr"
+        },
+        {
+          "text": "number",
+          "startMs": 7193,
+          "endMs": 7463,
+          "source": "asr"
+        },
+        {
+          "text": "picks",
+          "startMs": 7463,
+          "endMs": 7673,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 7673,
+          "endMs": 7803,
+          "source": "asr"
+        },
+        {
+          "text": "bucket?",
+          "startMs": 7803,
+          "endMs": 8123,
+          "source": "asr"
+        }
+      ],
+      "matchRate": 1
+    },
+    {
+      "id": "t04",
+      "speaker": "guest",
+      "segment": "seg02",
+      "file": "audio/turn-t04.wav",
+      "startMs": 8373,
+      "endMs": 11117,
+      "words": [
+        {
+          "text": "Yes.",
+          "startMs": 8373,
+          "endMs": 8683,
+          "source": "asr"
+        },
+        {
+          "text": "The",
+          "startMs": 8683,
+          "endMs": 9023,
+          "source": "asr"
+        },
+        {
+          "text": "index",
+          "startMs": 9023,
+          "endMs": 9233,
+          "source": "asr"
+        },
+        {
+          "text": "is",
+          "startMs": 9233,
+          "endMs": 9433,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 9433,
+          "endMs": 9563,
+          "source": "asr"
+        },
+        {
+          "text": "hash",
+          "startMs": 9563,
+          "endMs": 9823,
+          "source": "asr"
+        },
+        {
+          "text": "modulo",
+          "startMs": 9823,
+          "endMs": 10213,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 10213,
+          "endMs": 10413,
+          "source": "asr"
+        },
+        {
+          "text": "bucket",
+          "startMs": 10413,
+          "endMs": 10803,
+          "source": "asr"
+        },
+        {
+          "text": "count.",
+          "startMs": 10803,
+          "endMs": 11117,
+          "source": "asr"
+        }
+      ],
+      "matchRate": 1
+    },
+    {
+      "id": "t05",
+      "speaker": "host",
+      "segment": "seg02",
+      "file": "audio/turn-t05.wav",
+      "startMs": 11367,
+      "endMs": 12687,
+      "words": [
+        {
+          "text": "What",
+          "startMs": 11367,
+          "endMs": 11567,
+          "source": "asr"
+        },
+        {
+          "text": "does",
+          "startMs": 11567,
+          "endMs": 11767,
+          "source": "asr"
+        },
+        {
+          "text": "that",
+          "startMs": 11767,
+          "endMs": 12007,
+          "source": "asr"
+        },
+        {
+          "text": "look",
+          "startMs": 12007,
+          "endMs": 12167,
+          "source": "asr"
+        },
+        {
+          "text": "like",
+          "startMs": 12167,
+          "endMs": 12347,
+          "source": "asr"
+        },
+        {
+          "text": "in",
+          "startMs": 12347,
+          "endMs": 12467,
+          "source": "asr"
+        },
+        {
+          "text": "code?",
+          "startMs": 12467,
+          "endMs": 12687,
+          "source": "asr"
+        }
+      ],
+      "matchRate": 1
+    },
+    {
+      "id": "t06",
+      "speaker": "guest",
+      "segment": "seg02",
+      "file": "audio/turn-t06.wav",
+      "startMs": 12937,
+      "endMs": 15753,
+      "words": [
+        {
+          "text": "Python",
+          "startMs": 12947,
+          "endMs": 13317,
+          "source": "asr"
+        },
+        {
+          "text": "hashes",
+          "startMs": 13317,
+          "endMs": 13697,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 13697,
+          "endMs": 13887,
+          "source": "asr"
+        },
+        {
+          "text": "key,",
+          "startMs": 13887,
+          "endMs": 14217,
+          "source": "asr"
+        },
+        {
+          "text": "then",
+          "startMs": 14217,
+          "endMs": 14457,
+          "source": "asr"
+        },
+        {
+          "text": "reads",
+          "startMs": 14457,
+          "endMs": 14767,
+          "source": "asr"
+        },
+        {
+          "text": "one",
+          "startMs": 14767,
+          "endMs": 14947,
+          "source": "asr"
+        },
+        {
+          "text": "slot",
+          "startMs": 14947,
+          "endMs": 15187,
+          "source": "asr"
+        },
+        {
+          "text": "of",
+          "startMs": 15187,
+          "endMs": 15307,
+          "source": "asr"
+        },
+        {
+          "text": "an",
+          "startMs": 15307,
+          "endMs": 15427,
+          "source": "asr"
+        },
+        {
+          "text": "array.",
+          "startMs": 15427,
+          "endMs": 15753,
+          "source": "asr"
+        }
+      ],
+      "matchRate": 1
+    },
+    {
+      "id": "t07",
+      "speaker": "host",
+      "segment": "seg03",
+      "file": "audio/turn-t07.wav",
+      "startMs": 16353,
+      "endMs": 18078,
+      "words": [
+        {
+          "text": "Two",
+          "startMs": 16373,
+          "endMs": 16583,
+          "source": "asr"
+        },
+        {
+          "text": "keys",
+          "startMs": 16583,
+          "endMs": 16803,
+          "source": "asr"
+        },
+        {
+          "text": "can",
+          "startMs": 16803,
+          "endMs": 16953,
+          "source": "asr"
+        },
+        {
+          "text": "share",
+          "startMs": 16953,
+          "endMs": 17253,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 17253,
+          "endMs": 17313,
+          "source": "asr"
+        },
+        {
+          "text": "bucket,",
+          "startMs": 17313,
+          "endMs": 17793,
+          "source": "asr"
+        },
+        {
+          "text": "right?",
+          "startMs": 17793,
+          "endMs": 18078,
+          "source": "asr"
+        }
+      ],
+      "matchRate": 1
+    },
+    {
+      "id": "t08",
+      "speaker": "guest",
+      "segment": "seg03",
+      "file": "audio/turn-t08.wav",
+      "startMs": 18328,
+      "endMs": 21433,
+      "words": [
+        {
+          "text": "Right,",
+          "startMs": 18328,
+          "endMs": 18868,
+          "source": "asr"
+        },
+        {
+          "text": "that",
+          "startMs": 18868,
+          "endMs": 19048,
+          "source": "asr"
+        },
+        {
+          "text": "is",
+          "startMs": 19048,
+          "endMs": 19178,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 19178,
+          "endMs": 19238,
+          "source": "asr"
+        },
+        {
+          "text": "collision,",
+          "startMs": 19238,
+          "endMs": 19868,
+          "source": "asr"
+        },
+        {
+          "text": "and",
+          "startMs": 19868,
+          "endMs": 20018,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 20018,
+          "endMs": 20188,
+          "source": "asr"
+        },
+        {
+          "text": "bucket",
+          "startMs": 20188,
+          "endMs": 20528,
+          "source": "asr"
+        },
+        {
+          "text": "keeps",
+          "startMs": 20528,
+          "endMs": 20748,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 20748,
+          "endMs": 20858,
+          "source": "asr"
+        },
+        {
+          "text": "short",
+          "startMs": 20858,
+          "endMs": 21138,
+          "source": "asr"
+        },
+        {
+          "text": "chain.",
+          "startMs": 21138,
+          "endMs": 21433,
+          "source": "asr"
+        }
+      ],
+      "matchRate": 1
+    },
+    {
+      "id": "t09",
+      "speaker": "host",
+      "segment": "seg04",
+      "file": "audio/turn-t09.wav",
+      "startMs": 22033,
+      "endMs": 24606,
+      "words": [
+        {
+          "text": "So:",
+          "startMs": 22133,
+          "endMs": 22353,
+          "source": "asr"
+        },
+        {
+          "text": "hash,",
+          "startMs": 22353,
+          "endMs": 22833,
+          "source": "asr"
+        },
+        {
+          "text": "jump,",
+          "startMs": 22833,
+          "endMs": 23313,
+          "source": "asr"
+        },
+        {
+          "text": "check",
+          "startMs": 23313,
+          "endMs": 23713,
+          "source": "asr"
+        },
+        {
+          "text": "a",
+          "startMs": 23713,
+          "endMs": 23793,
+          "source": "asr"
+        },
+        {
+          "text": "short",
+          "startMs": 23793,
+          "endMs": 24233,
+          "source": "asr"
+        },
+        {
+          "text": "chain.",
+          "startMs": 24233,
+          "endMs": 24606,
+          "source": "asr"
+        }
+      ],
+      "matchRate": 1
+    },
+    {
+      "id": "t10",
+      "speaker": "guest",
+      "segment": "seg04",
+      "file": "audio/turn-t10.wav",
+      "startMs": 24856,
+      "endMs": 28635,
+      "words": [
+        {
+          "text": "Quick",
+          "startMs": 24866,
+          "endMs": 25216,
+          "source": "asr"
+        },
+        {
+          "text": "check.",
+          "startMs": 25216,
+          "endMs": 25686,
+          "source": "asr"
+        },
+        {
+          "text": "What",
+          "startMs": 25686,
+          "endMs": 25976,
+          "source": "asr"
+        },
+        {
+          "text": "picks",
+          "startMs": 25976,
+          "endMs": 26136,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 26136,
+          "endMs": 26346,
+          "source": "asr"
+        },
+        {
+          "text": "bucket?",
+          "startMs": 26346,
+          "endMs": 26696,
+          "source": "asr"
+        },
+        {
+          "text": "The",
+          "startMs": 26696,
+          "endMs": 26906,
+          "source": "asr"
+        },
+        {
+          "text": "hash,",
+          "startMs": 26906,
+          "endMs": 27386,
+          "source": "asr"
+        },
+        {
+          "text": "modulo",
+          "startMs": 27386,
+          "endMs": 27746,
+          "source": "asr"
+        },
+        {
+          "text": "the",
+          "startMs": 27746,
+          "endMs": 27956,
+          "source": "asr"
+        },
+        {
+          "text": "bucket",
+          "startMs": 27956,
+          "endMs": 28376,
+          "source": "asr"
+        },
+        {
+          "text": "count.",
+          "startMs": 28376,
+          "endMs": 28635,
+          "source": "asr"
+        }
+      ],
+      "matchRate": 1
+    }
+  ],
+  "alignment": {
+    "engine": "whisper.cpp",
+    "whisperCpp": "1.5.5",
+    "model": "small.en",
+    "matchRate": 1,
+    "alignedAt": "2026-11-02T19:38:47.569Z"
+  }
+}

@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="520" viewBox="0 0 1600 520" role="img" aria-label="podcast-explainer: two-host explainer videos with a persistent concept diagram, timed captions and pause-and-think holds">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0E1117"/>
+      <stop offset="1" stop-color="#141A26"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#7CC4FF" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#7CC4FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.2"/>
+    </filter>
+    <style>
+      .sans { font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      .mono { font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace; }
+    </style>
+  </defs>
+
+  <!-- page -->
+  <rect width="1600" height="520" rx="28" fill="url(#bg)"/>
+  <rect width="1600" height="520" rx="28" fill="none" stroke="#3A4356" stroke-width="2"/>
+  <circle cx="1210" cy="250" r="300" fill="url(#glow)"/>
+
+  <!-- chapter label, top left, as in the video -->
+  <g class="sans" font-size="22" font-weight="600" fill="#A9B1C2">
+    <rect x="64" y="46" width="14" height="14" rx="3" fill="#7CC4FF"/>
+    <text x="92" y="60">Chapter 3 · The mechanism</text>
+  </g>
+
+  <!-- title block -->
+  <g class="sans">
+    <text x="64" y="166" font-size="84" font-weight="800" fill="#F2F4F8" letter-spacing="-2">podcast-explainer</text>
+    <text x="64" y="222" font-size="30" font-weight="500" fill="#A9B1C2">Two-host explainer videos that make a learner think,</text>
+    <text x="64" y="262" font-size="30" font-weight="500" fill="#A9B1C2">then leave a transcript they can search and a self-test.</text>
+  </g>
+
+  <!-- pipeline chips -->
+  <g class="mono" font-size="20" font-weight="700">
+    <g>
+      <rect x="64" y="300" width="124" height="40" rx="20" fill="#171C26" stroke="#3A4356" stroke-width="2"/>
+      <text x="126" y="327" text-anchor="middle" fill="#F2F4F8">sources</text>
+    </g>
+    <text x="196" y="328" fill="#8E97AA" font-size="22">→</text>
+    <g>
+      <rect x="222" y="300" width="112" height="40" rx="20" fill="#171C26" stroke="#3A4356" stroke-width="2"/>
+      <text x="278" y="327" text-anchor="middle" fill="#F2F4F8">script</text>
+    </g>
+    <text x="342" y="328" fill="#8E97AA" font-size="22">→</text>
+    <g>
+      <rect x="368" y="300" width="166" height="40" rx="20" fill="#171C26" stroke="#3A4356" stroke-width="2"/>
+      <text x="451" y="327" text-anchor="middle" fill="#F2F4F8">Gemini TTS</text>
+    </g>
+    <text x="542" y="328" fill="#8E97AA" font-size="22">→</text>
+    <g>
+      <rect x="568" y="300" width="138" height="40" rx="20" fill="#171C26" stroke="#3A4356" stroke-width="2"/>
+      <text x="637" y="327" text-anchor="middle" fill="#F2F4F8">Remotion</text>
+    </g>
+    <text x="714" y="328" fill="#8E97AA" font-size="22">→</text>
+    <g>
+      <rect x="740" y="300" width="118" height="40" rx="20" fill="#171C26" stroke="#5BD69A" stroke-width="2"/>
+      <text x="799" y="327" text-anchor="middle" fill="#5BD69A">library</text>
+    </g>
+  </g>
+
+  <!-- caption band with speaker rail, bottom left -->
+  <g>
+    <rect x="64" y="372" width="794" height="100" rx="20" fill="#171C26" stroke="#3A4356" stroke-width="2"/>
+    <!-- speaker chips -->
+    <g class="sans" font-size="20" font-weight="800">
+      <circle cx="108" cy="400" r="20" fill="#4F8CFF"/>
+      <text x="108" y="407" text-anchor="middle" fill="#0E1117">N</text>
+      <circle cx="108" cy="446" r="20" fill="#FFB020" opacity="0.45"/>
+      <text x="108" y="453" text-anchor="middle" fill="#0E1117">T</text>
+    </g>
+    <!-- caption words: spoken so far in text colour, the rest dim -->
+    <g class="sans" font-size="27" font-weight="600">
+      <text x="146" y="410" fill="#F2F4F8">So if I add one server, <tspan fill="#7CC4FF">which keys</tspan> <tspan fill="#8E97AA">actually move?</tspan></text>
+    </g>
+    <!-- pause cue -->
+    <g class="mono" font-size="18" font-weight="700">
+      <rect x="146" y="428" width="290" height="30" rx="15" fill="#0E1117" stroke="#7CC4FF" stroke-width="2"/>
+      <circle cx="166" cy="443" r="6" fill="#7CC4FF"/>
+      <text x="182" y="450" fill="#7CC4FF">pause · predict · 7 s</text>
+    </g>
+    <!-- progress -->
+    <rect x="456" y="441" width="374" height="4" rx="2" fill="#3A4356"/>
+    <rect x="456" y="441" width="216" height="4" rx="2" fill="#7CC4FF"/>
+    <text x="830" y="449" class="mono" font-size="17" fill="#A9B1C2" text-anchor="end">04:12</text>
+  </g>
+
+  <!-- concept world: a hash ring with servers and keys -->
+  <g transform="translate(1210 250)">
+    <circle r="178" fill="none" stroke="#3A4356" stroke-width="10"/>
+    <!-- highlighted arc: the keys that move to the new server -->
+    <path d="M 0 -178 A 178 178 0 0 1 125.9 -125.9" fill="none" stroke="#7CC4FF" stroke-width="12" stroke-linecap="round" filter="url(#soft)" opacity="0.9"/>
+    <path d="M 0 -178 A 178 178 0 0 1 125.9 -125.9" fill="none" stroke="#7CC4FF" stroke-width="12" stroke-linecap="round"/>
+    <!-- tick marks -->
+    <g stroke="#3A4356" stroke-width="3">
+      <line x1="0" y1="-196" x2="0" y2="-186"/>
+      <line x1="196" y1="0" x2="186" y2="0"/>
+      <line x1="0" y1="196" x2="0" y2="186"/>
+      <line x1="-196" y1="0" x2="-186" y2="0"/>
+    </g>
+    <!-- keys moving (small circles) -->
+    <g fill="#F2F4F8">
+      <circle cx="30" cy="-175" r="7"/>
+      <circle cx="68" cy="-164" r="7"/>
+      <circle cx="104" cy="-144" r="7"/>
+    </g>
+    <!-- idle keys -->
+    <g fill="#8E97AA">
+      <circle cx="-160" cy="78" r="6"/>
+      <circle cx="-172" cy="-46" r="6"/>
+      <circle cx="-120" cy="-131" r="6"/>
+      <circle cx="98" cy="149" r="6"/>
+      <circle cx="166" cy="64" r="6"/>
+      <circle cx="-46" cy="172" r="6"/>
+    </g>
+    <!-- servers: nodes with labels -->
+    <g class="sans" font-size="22" font-weight="700">
+      <g transform="translate(0 -178)">
+        <rect x="-38" y="-24" width="76" height="48" rx="14" fill="#171C26" stroke="#4F8CFF" stroke-width="3"/>
+        <text y="8" text-anchor="middle" fill="#F2F4F8">S1</text>
+      </g>
+      <g transform="translate(125.9 -125.9)">
+        <rect x="-38" y="-24" width="76" height="48" rx="14" fill="#171C26" stroke="#5BD69A" stroke-width="3"/>
+        <text y="8" text-anchor="middle" fill="#5BD69A">new</text>
+      </g>
+      <g transform="translate(178 0)">
+        <rect x="-38" y="-24" width="76" height="48" rx="14" fill="#171C26" stroke="#4F8CFF" stroke-width="3"/>
+        <text y="8" text-anchor="middle" fill="#F2F4F8">S2</text>
+      </g>
+      <g transform="translate(-125.9 125.9)">
+        <rect x="-38" y="-24" width="76" height="48" rx="14" fill="#171C26" stroke="#4F8CFF" stroke-width="3"/>
+        <text y="8" text-anchor="middle" fill="#F2F4F8">S3</text>
+      </g>
+      <g transform="translate(-178 0)">
+        <rect x="-38" y="-24" width="76" height="48" rx="14" fill="#171C26" stroke="#4F8CFF" stroke-width="3"/>
+        <text y="8" text-anchor="middle" fill="#F2F4F8">S4</text>
+      </g>
+    </g>
+    <!-- claim label pinned to the arc -->
+    <g class="sans" font-size="22" font-weight="600">
+      <rect x="-70" y="-30" width="140" height="60" rx="14" fill="#0E1117" stroke="#3A4356" stroke-width="2"/>
+      <text y="-4" text-anchor="middle" fill="#A9B1C2">keys moved</text>
+      <text y="22" text-anchor="middle" fill="#7CC4FF" class="mono" font-weight="700">3 of 12</text>
+    </g>
+  </g>
+
+  <!-- keyword chips top right, as in the video -->
+  <g class="sans" font-size="19" font-weight="600" fill="#A9B1C2">
+    <rect x="1264" y="40" width="112" height="34" rx="17" fill="#171C26" stroke="#3A4356" stroke-width="2"/>
+    <text x="1320" y="63" text-anchor="middle">hash ring</text>
+    <rect x="1388" y="40" width="148" height="34" rx="17" fill="#171C26" stroke="#7CC4FF" stroke-width="2"/>
+    <text x="1462" y="63" text-anchor="middle" fill="#7CC4FF">1/N remapped</text>
+  </g>
+
+  <!-- footer line -->
+  <g class="mono" font-size="18" fill="#8E97AA">
+    <text x="1536" y="486" text-anchor="end">every number sourced · measured audio is the clock · judge ≠ builder</text>
+  </g>
+</svg>

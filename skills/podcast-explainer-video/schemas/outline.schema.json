@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "outline.schema.json",
+  "title": "podcast-explainer-video outline.json",
+  "description": "Structure of the episode before any dialogue. The learner approves it at gate 1. The dialogue pass copies id, role, title, learningGoal and visualPlan into script.json segments.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "id",
+    "title",
+    "learningObjective",
+    "conceptAngle",
+    "misconception",
+    "targetMinutes",
+    "segments"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 60
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "learningObjective": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "conceptAngle": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "arc": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "One sentence: puzzle -> conflict -> resolution."
+    },
+    "misconception": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "statement",
+        "correction"
+      ],
+      "properties": {
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "correction": {
+          "type": "string",
+          "minLength": 1
+        },
+        "misconceptionId": {
+          "type": "string",
+          "pattern": "^m[0-9]+$"
+        }
+      }
+    },
+    "targetMinutes": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 40
+    },
+    "depth": {
+      "type": "string",
+      "enum": [
+        "quick",
+        "standard",
+        "deep"
+      ],
+      "description": "quick about 6 min / 5 segments, standard about 12 min / 8 segments, deep 20 to 35 min / 10 to 16 segments (references/depth.md)."
+    },
+    "series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "part",
+        "parts"
+      ],
+      "description": "Set when a deep run is split into parts of at most 12 minutes. Part 2 onwards may open with a recap segment.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "part": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "parts": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        }
+      }
+    },
+    "segments": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "role",
+          "title",
+          "learningGoal",
+          "visualPlan",
+          "keyQuestion"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^seg[0-9]{2}$"
+          },
+          "role": {
+            "$ref": "common.schema.json#/$defs/role"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          },
+          "learningGoal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "keyQuestion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "The deep why/how/what-if question the learner host asks in this segment."
+          },
+          "visualPlan": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 400
+          },
+          "rhythm": {
+            "type": "string",
+            "enum": [
+              "anchor",
+              "dense",
+              "breathing"
+            ]
+          },
+          "targetSec": {
+            "type": "number",
+            "minimum": 5,
+            "maximum": 300
+          },
+          "ownedFactIds": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^f[0-9]+$"
+            },
+            "description": "Facts that are the core point of this segment. One fact is the core of one segment only."
+          },
+          "newTerms": {
+            "type": "array",
+            "maxItems": 4,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            "description": "New terms named in this segment, at most 4 (common.schema.json $defs.newTermLimits.perSegment). Whole-episode caps from the same definition (validate_script.py W20): quick 3, standard 5, deep 5 per part. These terms, with definitions from learn.json summary.terms or glossary.json, become the transcript glossary. The validator checks each one is described in plain words before or as it is named (E29)."
+          },
+          "coreSegment": {
+            "type": "boolean",
+            "description": "True on the ONE segment that holds the core mechanism step (validate_script.py E36 if more than one). In it the learner must get a pause-and-think hold before at least one expert answer (E35)."
+          },
+          "explainBack": {
+            "type": "boolean",
+            "description": "True when the learner explains the idea back in this segment. The learner's explain-back pause (pause kind explain-back with holdAfterMs) must come BEFORE the host's explain-back turn, so the learner produces it before they hear it (E37)."
+          },
+          "requireGeneralRule": {
+            "type": "boolean",
+            "description": "True when a worked case with numbers must end in its general rule in the same segment (a rule with a variable, such as 'about K over N', or 'in general ...'). Without the rule the validator errors (E33); otherwise it only warns (W33)."
+          },
+          "pauses": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4,
+            "description": "Planned pause-and-think holds in this segment (turns with pause and holdAfterMs in the script)."
+          }
+        }
+      }
+    }
+  }
+}

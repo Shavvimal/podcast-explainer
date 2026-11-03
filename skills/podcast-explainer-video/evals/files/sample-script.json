@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "id": "hash-maps",
+  "title": "How a hash map works",
+  "targetMinutes": 2.5,
+  "learningObjective": "Explain why a hash map lookup stays fast as it grows: the hash picks a bucket, collisions share a bucket, and the table doubles before buckets get crowded.",
+  "conceptAngle": "A row of buckets that keys drop into, which doubles in place when it gets crowded.",
+  "speakers": [
+    {"id": "host", "name": "Nia", "voice": "Sulafat", "color": "#4F8CFF", "side": "left", "role": "learner"},
+    {"id": "guest", "name": "Theo", "voice": "Iapetus", "color": "#FFB020", "side": "right", "role": "expert"}
+  ],
+  "segments": [
+    {
+      "id": "seg01",
+      "role": "hook",
+      "title": "The puzzle",
+      "learningGoal": "Notice that lookup time does not grow with size, and state the naive scanning model.",
+      "visualPlan": "Two dictionaries side by side, one tiny and one huge, each with a stopwatch showing the same time.",
+      "turns": [
+        {"id": "t01", "speaker": "host", "text": "Here's something that bugs me. I can find one name in a dictionary with a million entries about as fast as in one with ten. How? My guess is it's just scanning really, really fast.", "style": "", "onScreen": ["dictionary"], "factIds": ["f1"], "kind": "prediction", "holdAfterMs": 7000, "pause": {"kind": "predict", "prompt": "Why does lookup stay fast as the table grows?"}},
+        {"id": "t02", "speaker": "guest", "text": "It isn't scanning at all. It does a bit of arithmetic on the key and jumps straight to one slot. Hold on to your guess, though. There's a second guess hiding inside it.", "style": "", "onScreen": ["slot"], "factIds": []}
+      ]
+    },
+    {
+      "id": "seg02",
+      "role": "misconception",
+      "title": "Does every key get its own slot?",
+      "learningGoal": "See that keys must collide because there are more keys than buckets.",
+      "visualPlan": "Keys drop into a row of 16 buckets; the naive picture shows one key per bucket until two keys hit the same bucket.",
+      "turns": [
+        {"id": "t03", "speaker": "host", "text": "Okay, so you hash the key into a number, and that number is the slot. So every key gets its own private slot, and nothing ever shares. Right?", "style": "", "onScreen": ["hash"], "factIds": [], "kind": "prediction"},
+        {"id": "t04", "speaker": "guest", "text": "Try it. The table starts with 16 buckets, and there are far more possible keys than that. What happens when two keys land in the same bucket?", "style": "", "onScreen": ["16 buckets"], "factIds": ["f2"], "kind": "question"},
+        {"id": "t05", "speaker": "host", "text": "Oh. So no key gets a private slot: two keys can share one. Uh, so the bucket has to hold a short list, and the lookup checks that list. That's a collision.", "style": "", "onScreen": ["collision"], "factIds": [], "kind": "explain-back"}
+      ]
+    },
+    {
+      "id": "seg03",
+      "role": "mechanism",
+      "title": "Why it stays fast",
+      "learningGoal": "Explain the load factor and why the table doubles before the lists get long.",
+      "visualPlan": "A load-factor gauge fills as keys arrive; at the limit the row of buckets doubles and keys re-drop into new places.",
+      "turns": [
+        {"id": "t06", "speaker": "host", "text": "But then why doesn't it slow down? If I keep adding keys, those lists get longer. What stops the lookup from turning back into a scan?", "style": "", "onScreen": [], "factIds": [], "kind": "question"},
+        {"id": "t07", "speaker": "guest", "text": "The load factor. That's entries divided by buckets. Java's default limit is 0.75. With 16 buckets, once the table holds more than 12 entries, it doubles to 32 buckets and re-hashes every key into its new place.", "style": "", "onScreen": ["load factor", "0.75"], "factIds": ["f3", "f2", "f4", "f6", "f5"], "kind": "answer"},
+        {"id": "t08", "speaker": "host", "text": "So the lists stay short because the table grows before they get long. The doubling is expensive, but it's rare, so on average each insert stays cheap.", "style": "", "onScreen": ["doubling"], "factIds": [], "kind": "explain-back"}
+      ]
+    },
+    {
+      "id": "seg04",
+      "role": "recap",
+      "title": "Say it back",
+      "learningGoal": "Restate the three parts of the mechanism in the learner's own words.",
+      "visualPlan": "Roadmap strip ticks off three items: hash picks a bucket, collisions share, table doubles.",
+      "turns": [
+        {"id": "t09", "speaker": "host", "text": "Let me say it back. One, the hash picks a bucket, so there's no scan. Two, keys collide, so a bucket holds a short list. Three, the table doubles before those lists get long.", "style": "", "onScreen": [], "factIds": [], "kind": "explain-back"},
+        {"id": "t10", "speaker": "guest", "text": "One fix to point one. The hash only helps if it spreads keys evenly. A bad hash puts everything in a few buckets, and then no amount of doubling saves you.", "style": "", "onScreen": ["spreads keys evenly"], "factIds": []}
+      ]
+    },
+    {
+      "id": "seg05",
+      "role": "check",
+      "title": "Check yourself",
+      "learningGoal": "Apply the mechanism to a case where doubling does not help.",
+      "visualPlan": "Question card with a countdown, then 100 keys piled in one bucket before and after doubling.",
+      "turns": [
+        {"id": "t11", "speaker": "guest", "text": "Your question. A table gets 100 keys that all have the same hash. Does doubling the table help?", "style": "", "onScreen": [], "factIds": ["f7"], "kind": "question", "holdAfterMs": 7000, "pause": {"kind": "retrieve", "prompt": "100 keys, one hash: does doubling help?"}},
+        {"id": "t12", "speaker": "host", "text": "No. Doubling only separates keys whose hashes differ. Same hash, same bucket, so it's still a scan of 100 keys.", "style": "", "onScreen": [], "factIds": ["f7"], "kind": "answer"}
+      ]
+    }
+  ]
+}

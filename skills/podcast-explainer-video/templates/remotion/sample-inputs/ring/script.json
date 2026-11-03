@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "id": "sample-ring",
+  "title": "A ring of servers",
+  "speakers": [
+    {"id": "host", "name": "Nia", "voice": "Sulafat", "color": "#4F8CFF", "side": "left", "role": "learner"},
+    {"id": "guest", "name": "Theo", "voice": "Iapetus", "color": "#FFB020", "side": "right", "role": "expert"}
+  ],
+  "segments": [
+    {"id": "seg01", "role": "mechanism", "title": "Keys walk clockwise", "learningGoal": "Each key belongs to the next server clockwise.", "visualPlan": "Ring world: keys, then servers, then a walk.",
+     "turns": [
+      {"id": "t01", "speaker": "guest", "text": "Put eight keys on a ring, then two servers, A at 3 and B at 7.", "style": "", "onScreen": [], "factIds": []},
+      {"id": "t02", "speaker": "guest", "text": "Key 1 walks clockwise and stops at A. Every key does the same walk.", "style": "", "onScreen": ["walks clockwise"], "factIds": []},
+      {"id": "t03", "speaker": "host", "text": "So what happens when server C joins at 5?", "style": "", "onScreen": [], "factIds": []},
+      {"id": "t04", "speaker": "guest", "text": "Only keys 4 and 5 move, from B to C. The rest stay.", "style": "", "onScreen": [], "factIds": []}
+     ]},
+    {"id": "seg02", "role": "compare", "title": "Mod versus ring", "learningGoal": "Mod N moves most keys; the ring moves one arc.", "visualPlan": "Compare: table for mod, shared ring for the ring.",
+     "turns": [
+      {"id": "t05", "speaker": "host", "text": "And with mod 2 going to mod 3?", "style": "", "onScreen": [], "factIds": []},
+      {"id": "t06", "speaker": "guest", "text": "Mod moves 4 of 8 keys. The ring moved 2 of 8.", "style": "", "onScreen": [], "factIds": []},
+      {"id": "t07", "speaker": "host", "text": "And the loads stay close to even.", "style": "", "onScreen": [], "factIds": []}
+     ]}
+  ]
+}

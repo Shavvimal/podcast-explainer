@@ -1,0 +1,21 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+  # The Remotion template pins exact versions on purpose (all @remotion/* must match). Dependabot
+  # opens the PR; a human checks the Remotion changelog and bumps every @remotion/* line together.
+  - package-ecosystem: "npm"
+    directory: "/skills/podcast-explainer-video/templates/remotion"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "template"
+    groups:
+      remotion:
+        patterns:
+          - "remotion"
+          - "@remotion/*"

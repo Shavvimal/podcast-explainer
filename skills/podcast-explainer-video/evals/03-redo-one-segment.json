@@ -1,0 +1,25 @@
+{
+  "skills": [
+    "podcast-explainer-video"
+  ],
+  "query": "Find where we explained why the hash map table doubles. That part was too fast: I rewrote turn t07 in script.json so Theo explains it more slowly. Redo just that part and update my flashcards.",
+  "files": [
+    "evals/files/sample-script.json",
+    "evals/files/sample-facts.json",
+    "evals/files/sample-scenes.json",
+    "evals/files/sample-learn.json"
+  ],
+  "setup": "Copy the four files to explainers/hash-maps/{script,facts,scenes,learn}.json, run the full pipeline once (tts.py --scratch is enough), including transcript.py and learn.py, then change the text of turn t07 only.",
+  "expected_behavior": [
+    "Runs scripts/search.py \"table doubles\" (or a close query) against explainers/library first and reports the hit as episode, chapter, [mm:ss], speaker and the deep link file:///.../episode.mp4#t=SECONDS; hits from the transcript, the self-test and the cards all point at seg03",
+    "Reads the edited script.json and does not rewrite any turn other than t07 unless validate_script.py reports a problem in that segment; keeps holdAfterMs and pause on t01 and t11 unchanged",
+    "Runs scripts/validate_script.py on the edited script with --facts and --minutes; if the new t07 text adds a number that is not in facts.json, it adds a sourced fact (or asks the learner) before any TTS call",
+    "Re-synthesises audio for t07 only (tts.py --only t07 or --segment seg03); every other turn comes from audio/cache with the same hash, including t01 and t11 whose holds did not change",
+    "Rebuilds audio/episode.wav and timing.json so that every turn after t07 shifts by the change in t07 length, with the 7000 ms holds after t01 and t11 still present and no other gap than gapMs and tailPadMs",
+    "Re-runs align.mjs for the changed turns only and build_manifest.py so scene anchors and holds[] re-resolve without hand edits to scenes.json or episode.json",
+    "Re-renders out/episode.mp4, re-runs qc.py all as a diagnostic (audio.fidelity pass for the new t07 take), reruns learn.py and transcript.py --embed-chapters so cards.csv and selftest.md carry the new [mm:ss] for seg03, search.py returns the new time and learn.py keeps any gap-log rows the learner added; only then runs qc.py all on that final mp4 and gives qc/judge-brief.md to a read-only judge and qc/restate-brief.md to a separate blind restate agent; both reply with JSON and the parent writes qc/scores.json with the new build id, reasons and the restate result",
+    "Runs qc.py all --final without changing any file, so the build id of the scores still matches; its verdict is READY FOR APPROVAL before gate 3, and at gate 3 the learner's listen note goes into qc/listen.json",
+    "Appends one entry to qc/learning.json with issue, root cause, fix and prevention rule, and stops at HUMAN GATE 3 with the mp4 path and the seg03 range in mm:ss",
+    "Prints no API key value or length at any point"
+  ]
+}

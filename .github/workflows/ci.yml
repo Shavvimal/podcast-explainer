@@ -1,0 +1,100 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: check (${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: astral-sh/setup-uv@v10
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+      - name: ffmpeg (a few tests assemble a tiny episode; they skip without it)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Public hygiene
+        run: python3 scripts/check_hygiene.py
+      - name: Lint
+        run: uvx ruff check skills/podcast-explainer-video/scripts tests scripts
+      - name: Unit tests
+        run: python3 -m unittest discover -s tests
+      - name: align.mjs parses
+        run: node --check skills/podcast-explainer-video/scripts/align.mjs
+      - name: Validate the plugin, marketplace and skill
+        if: matrix.python-version == '3.13'
+        run: |
+          npm install --global @anthropic-ai/claude-code
+          claude plugin validate . --profile directory
+
+  template:
+    name: template
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+      - name: Install the Remotion template
+        working-directory: skills/podcast-explainer-video/templates/remotion
+        run: npm install --no-audit --no-fund
+      - name: Type-check the Remotion template
+        working-directory: skills/podcast-explainer-video/templates/remotion
+        run: npx tsc --noEmit
+
+  version-bump:
+    name: version-bump
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Require a version bump when a user-facing file changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          # The skill (skills/) and the manifests ship to users. A change there must raise the
+          # version, so installs pick it up. Docs, tests and CI do not.
+          changed=$(git diff --name-only "$BASE_SHA"...HEAD -- 'skills/**' '.claude-plugin/**')
+          if [ -z "$changed" ]; then
+            echo "No user-facing changes; a version bump is not required."
+            exit 0
+          fi
+          version() { python3 -c 'import json,sys; print(json.load(sys.stdin)["version"])'; }
+          head_v=$(version < .claude-plugin/plugin.json)
+          base_v=$(git show "$BASE_SHA:.claude-plugin/plugin.json" | version)
+          echo "base=$base_v head=$head_v"
+          if ! [[ "$head_v" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::version '$head_v' is not X.Y.Z semver."
+            exit 1
+          fi
+          # dpkg compares versions correctly (0.10.0 > 0.9.0, where a string compare is wrong),
+          # and 'lt' rejects an unchanged version and a downgrade.
+          if ! dpkg --compare-versions "$base_v" lt "$head_v"; then
+            echo "::error::.claude-plugin/plugin.json version must increase: base=$base_v head=$head_v."
+            exit 1
+          fi
+          if ! grep -q "^## $head_v " CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no '## $head_v' section."
+            exit 1
+          fi

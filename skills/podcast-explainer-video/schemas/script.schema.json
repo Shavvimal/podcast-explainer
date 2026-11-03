@@ -1,0 +1,288 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "script.schema.json",
+  "title": "podcast-explainer-video script.json",
+  "description": "Two-host dialogue split into segments and turns. Written in the dialogue pass, checked by scripts/validate_script.py, read by tts.py and build_manifest.py.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "id",
+    "title",
+    "speakers",
+    "segments"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "id": {
+      "$ref": "#/$defs/slug"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "targetMinutes": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 40,
+      "description": "Overrides nothing: validate_script.py uses --minutes first, then this."
+    },
+    "depth": {
+      "type": "string",
+      "enum": [
+        "quick",
+        "standard",
+        "deep"
+      ],
+      "description": "quick about 6 min / 5 segments, standard about 12 min / 8 segments, deep 20 to 35 min / 10 to 16 segments (references/depth.md)."
+    },
+    "series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "part",
+        "parts"
+      ],
+      "description": "Set when a deep run is split into parts of at most 12 minutes. Part 2 onwards may open with a recap segment. `parts` is the total number of parts; transcript.py writes it as `of` in the library index.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "part": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "parts": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        }
+      }
+    },
+    "learningObjective": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "conceptAngle": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "One sentence that names the persistent concept world."
+    },
+    "speakers": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/speaker"
+      }
+    },
+    "segments": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 16,
+      "items": {
+        "$ref": "#/$defs/segment"
+      }
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 60
+    },
+    "role": {
+      "$ref": "common.schema.json#/$defs/role"
+    },
+    "speaker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "voice",
+        "color",
+        "side",
+        "role"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]{0,19}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "voice": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Gemini prebuilt voice name (for example Sulafat, Iapetus) or a voice_... id."
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "side": {
+          "type": "string",
+          "enum": [
+            "left",
+            "right"
+          ]
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "learner",
+            "expert"
+          ]
+        },
+        "style": {
+          "type": "string",
+          "maxLength": 60,
+          "description": "Default Gemini style string for this host. Empty or one short constant."
+        },
+        "avatar": {
+          "type": "string",
+          "pattern": "^img/[A-Za-z0-9_.-]+\\.(png|jpg|jpeg|svg)$",
+          "description": "Optional badge image, relative to the episode folder (img/<file>). build_manifest.py checks it exists before writing."
+        }
+      }
+    },
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "role",
+        "learningGoal",
+        "visualPlan",
+        "turns"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^seg[0-9]{2}$"
+        },
+        "role": {
+          "$ref": "#/$defs/role"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "learningGoal": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "visualPlan": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 400
+        },
+        "rhythm": {
+          "type": "string",
+          "enum": [
+            "anchor",
+            "dense",
+            "breathing"
+          ]
+        },
+        "targetSec": {
+          "type": "number",
+          "minimum": 5,
+          "maximum": 300,
+          "description": "Overrides the role-weighted word budget for this segment."
+        },
+        "turns": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 30,
+          "items": {
+            "$ref": "#/$defs/turn"
+          }
+        }
+      }
+    },
+    "turn": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "speaker",
+        "text"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^t[0-9]{2,3}$"
+        },
+        "speaker": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]{0,19}$"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 600,
+          "description": "Verbatim words to speak. Allowed markup: Gemini <tags> from the list in references/script.md and |backchannel| in chunk mode."
+        },
+        "style": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "onScreen": {
+          "type": "array",
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          }
+        },
+        "factIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^f[0-9]+$"
+          }
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "statement",
+            "question",
+            "answer",
+            "prediction",
+            "explain-back",
+            "backchannel"
+          ]
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Writer note for reviewers. Never spoken, never sent to TTS."
+        },
+        "holdAfterMs": {
+          "$ref": "common.schema.json#/$defs/holdAfterMs"
+        },
+        "pause": {
+          "$ref": "common.schema.json#/$defs/pause"
+        }
+      }
+    }
+  }
+}

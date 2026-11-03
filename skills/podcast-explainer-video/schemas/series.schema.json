@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "series.schema.json",
+  "title": "podcast-explainer-video series.json",
+  "description": "Index of a deep explainer split into parts (references/depth.md section 5). Lives at <workspace>/<series-id>/series.json. validate_script.py --kind series checks it together with every part folder: parts exist, hosts stay the same, one glossary, enough retrieval checks across the series, and each part's MEASURED audio at most 12 minutes once timing.json exists.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "id", "title", "depth", "parts"],
+  "properties": {
+    "version": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 50 },
+    "title": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "depth": { "const": "deep" },
+    "learningObjective": { "type": "string" },
+    "parts": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["part", "slug", "title"],
+        "properties": {
+          "part": { "type": "integer", "minimum": 1, "maximum": 10 },
+          "slug": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*-p[0-9]+$", "maxLength": 60 },
+          "title": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "rungs": { "type": "array", "items": { "type": "integer", "minimum": 1, "maximum": 7 } },
+          "targetMinutes": { "type": "number", "minimum": 1, "maximum": 12 }
+        }
+      }
+    },
+    "recapLines": { "type": "object", "additionalProperties": { "type": "string" } },
+    "previewLines": { "type": "object", "additionalProperties": { "type": "string" } }
+  }
+}

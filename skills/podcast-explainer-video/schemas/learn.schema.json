@@ -1,0 +1,320 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "learn.schema.json",
+  "title": "podcast-explainer-video learn.json",
+  "description": "Learning artefacts for one episode, written by the agent from script.json after timing exists. scripts/learn.py turns it into learn/selftest.md, teachback.md, cards.csv, cards.md, summary.md and gaplog.md and registers them in library/index.json. Rules in references/learning-design.md section 8.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "slug",
+    "title",
+    "selfTest",
+    "teachBack",
+    "cards",
+    "summary",
+    "gapLog"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 60,
+      "description": "Must equal the episode folder name and script.json id."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "selfTest": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 8,
+      "description": "5 questions recommended (learn.py warns otherwise). At most 1 at level remember. Q3 targets the misconception, Q4 a neighbour concept.",
+      "items": {
+        "$ref": "#/$defs/selfTestItem"
+      }
+    },
+    "teachBack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task",
+        "requiredIdeas",
+        "mustNotClaim",
+        "interactivePrompt"
+      ],
+      "properties": {
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 400
+        },
+        "requiredIdeas": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "mustNotClaim": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300,
+          "description": "The misconception, stated as the learner might say it."
+        },
+        "interactivePrompt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1200,
+          "description": "Paste-ready prompt for a chat model that plays a curious student."
+        }
+      }
+    },
+    "cards": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 12,
+      "description": "Fronts are questions that need the mechanism, never a term cloze. Include one misconception card and one analogy-limit card.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "front",
+          "back",
+          "turnId"
+        ],
+        "properties": {
+          "front": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "back": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 400,
+            "description": "1 to 2 sentences. learn.py appends the [slug mm:ss] reference."
+          },
+          "turnId": {
+            "$ref": "#/$defs/turnId"
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "puzzle",
+        "answer",
+        "plain",
+        "mechanism",
+        "terms",
+        "misconception"
+      ],
+      "properties": {
+        "puzzle": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "answer": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "plain": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1200,
+          "description": "3 to 5 sentences in everyday words."
+        },
+        "mechanism": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 10,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "terms": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "term",
+              "meaning"
+            ],
+            "properties": {
+              "term": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 60
+              },
+              "meaning": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300
+              }
+            }
+          }
+        },
+        "misconception": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "claim",
+            "whyFails"
+          ],
+          "properties": {
+            "claim": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            "whyFails": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 400
+            }
+          }
+        },
+        "analogy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mapping",
+            "breaksWhere"
+          ],
+          "properties": {
+            "mapping": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 400
+            },
+            "breaksWhere": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            }
+          }
+        },
+        "stillOpen": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "heroStill": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Path relative to the episode folder, for example qc/hero-mechanism.png."
+        }
+      }
+    },
+    "gapLog": {
+      "type": "array",
+      "maxItems": 20,
+      "description": "Seed rows: points the script simplified on purpose. learn.py seeds learn/gaplog.md once and never removes rows the learner added.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "question",
+          "turn"
+        ],
+        "properties": {
+          "question": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "where": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Where the learner got stuck; n/a for a seed row."
+          },
+          "turn": {
+            "$ref": "#/$defs/turnId"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "closed"
+            ],
+            "default": "open"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "turnId": {
+      "type": "string",
+      "pattern": "^t[0-9]{2,3}$"
+    },
+    "selfTestItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "question",
+        "level",
+        "answer",
+        "segment",
+        "turn"
+      ],
+      "properties": {
+        "question": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 400
+        },
+        "level": {
+          "type": "string",
+          "enum": [
+            "remember",
+            "understand",
+            "apply",
+            "analyse",
+            "compare",
+            "transfer"
+          ]
+        },
+        "answer": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 600,
+          "description": "1 to 3 sentences."
+        },
+        "segment": {
+          "type": "string",
+          "pattern": "^seg[0-9]{2}$"
+        },
+        "turn": {
+          "$ref": "#/$defs/turnId",
+          "description": "The turn where the answer is explained."
+        },
+        "heldOut": {
+          "type": "boolean",
+          "description": "true on exactly ONE item at transfer, apply, analyse or create level: the held-out case the blind restater answers (qc.py restate brief). Its question and answer must not be spoken or shown in the video (qc.py brief.heldout fails at 50% word-pair or word-triple overlap); the judge checks that the video does not demonstrate it."
+        }
+      }
+    }
+  }
+}

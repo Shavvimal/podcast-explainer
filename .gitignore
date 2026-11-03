@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+
+# Node (the Remotion template is installed in the user's workspace, never here)
+node_modules/
+*.tsbuildinfo
+npm-debug.log*
+
+# Workspaces and renders made while testing the skill
+explainers/
+out/
+*.mp4
+audio/
+qc/
+
+# Secrets: the key lives in the environment or in ~/.config/podcast-explainer/env, never here
+.env
+.env.*
+!.env.example
+*.key
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Local scratch
+scratchpad/
+
+# Local-only working material: research, reviews, example builds, sources, the original skill. Never tracked.
+private/

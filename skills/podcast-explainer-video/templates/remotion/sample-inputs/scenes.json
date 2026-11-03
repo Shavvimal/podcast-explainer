@@ -1,0 +1,628 @@
+{
+  "version": 1,
+  "conceptAngle": "A hash map is an address calculator: the key computes its own bucket, so lookup is arithmetic plus one jump.",
+  "video": {
+    "tailMs": 700
+  },
+  "captions": {
+    "mode": "karaoke"
+  },
+  "world": {
+    "nodes": [
+      {
+        "id": "key",
+        "label": "key",
+        "value": "\"alice\"",
+        "x": 230,
+        "y": 260,
+        "persist": true
+      },
+      {
+        "id": "hashfn",
+        "label": "hash()",
+        "sublabel": "function",
+        "x": 640,
+        "y": 260,
+        "shape": "pill"
+      },
+      {
+        "id": "hash",
+        "label": "hash",
+        "value": "7391",
+        "x": 1000,
+        "y": 260,
+        "persist": true
+      },
+      {
+        "id": "index",
+        "label": "index",
+        "value": "7",
+        "x": 1000,
+        "y": 540,
+        "persist": true
+      },
+      {
+        "id": "buckets",
+        "label": "buckets",
+        "sublabel": "8 slots",
+        "x": 1540,
+        "y": 540
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "from": "key",
+        "to": "hashfn"
+      },
+      {
+        "id": "e2",
+        "from": "hashfn",
+        "to": "hash"
+      },
+      {
+        "id": "e3",
+        "from": "hash",
+        "to": "index",
+        "label": "% 8"
+      },
+      {
+        "id": "e4",
+        "from": "index",
+        "to": "buckets",
+        "label": "jump"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "title",
+      "anchor": {
+        "from": {
+          "turn": "t01"
+        },
+        "to": {
+          "turn": "t01",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "kicker": "Sample episode",
+        "title": "How a hash map finds a key",
+        "subtitle": "No searching, just arithmetic",
+        "question": "One key among a million, in one step?",
+        "questionAt": {
+          "turn": "t01",
+          "word": "million"
+        }
+      }
+    },
+    {
+      "id": "s02",
+      "type": "world",
+      "anchor": {
+        "from": {
+          "turn": "t02"
+        },
+        "to": {
+          "turn": "t03",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "steps": [
+          {
+            "at": {
+              "turn": "t02"
+            },
+            "reveal": [
+              "key"
+            ],
+            "focus": [
+              "key"
+            ],
+            "camera": {
+              "x": 700,
+              "y": 300,
+              "zoom": 1.15
+            }
+          },
+          {
+            "at": {
+              "turn": "t02",
+              "word": "hash function"
+            },
+            "reveal": [
+              "hashfn",
+              "e1"
+            ],
+            "focus": [
+              "hashfn"
+            ],
+            "focusEdges": [
+              "e1"
+            ],
+            "flow": [
+              "e1"
+            ]
+          },
+          {
+            "at": {
+              "turn": "t02",
+              "word": "number"
+            },
+            "reveal": [
+              "hash",
+              "e2"
+            ],
+            "focus": [
+              "hash"
+            ],
+            "focusEdges": [
+              "e2"
+            ],
+            "flow": [
+              "e2"
+            ]
+          },
+          {
+            "at": {
+              "turn": "t03",
+              "word": "bucket"
+            },
+            "reveal": [
+              "index",
+              "e3",
+              "buckets",
+              "e4"
+            ],
+            "focus": [
+              "index",
+              "buckets"
+            ],
+            "focusEdges": [
+              "e3",
+              "e4"
+            ],
+            "flow": [
+              "e4"
+            ],
+            "camera": {
+              "x": 864,
+              "y": 380,
+              "zoom": 1
+            },
+            "note": "The key computes its own address"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03",
+      "type": "equation",
+      "anchor": {
+        "from": {
+          "turn": "t04"
+        },
+        "to": {
+          "turn": "t04",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "title": "Pick the bucket",
+        "lines": [
+          {
+            "tex": "\\text{index} = h(k) \\bmod n",
+            "note": "n = number of buckets",
+            "at": {
+              "turn": "t04",
+              "word": "index"
+            }
+          },
+          {
+            "tex": "7391 \\bmod 8 = 7",
+            "note": "the bucket for \"alice\"",
+            "at": {
+              "turn": "t04",
+              "word": "count"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "s04",
+      "type": "code",
+      "anchor": {
+        "from": {
+          "turn": "t05"
+        },
+        "to": {
+          "turn": "t06",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "title": "Lookup in code",
+        "filename": "lookup.py",
+        "language": "python",
+        "code": "def lookup(table, key):\n    h = hash(key)                # one hash\n    i = h % len(table.slots)     # pick the bucket\n    return table.slots[i]        # one jump, no search\n",
+        "steps": [
+          {
+            "at": {
+              "turn": "t05"
+            },
+            "lines": "1"
+          },
+          {
+            "at": {
+              "turn": "t06",
+              "word": "hashes"
+            },
+            "lines": "2",
+            "focus": "2"
+          },
+          {
+            "at": {
+              "turn": "t06",
+              "word": "reads"
+            },
+            "lines": "3-4",
+            "focus": "3-4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s05",
+      "type": "world",
+      "anchor": {
+        "from": {
+          "turn": "t07"
+        },
+        "to": {
+          "turn": "t07",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "steps": [
+          {
+            "at": {
+              "turn": "t07"
+            },
+            "set": {
+              "key": {
+                "value": "\"bob\"",
+                "persist": true
+              },
+              "hash": {
+                "value": "1047",
+                "persist": true
+              }
+            },
+            "focus": [
+              "key",
+              "hash"
+            ],
+            "focusEdges": []
+          },
+          {
+            "at": {
+              "turn": "t07",
+              "word": "share"
+            },
+            "set": {
+              "index": {
+                "value": "7",
+                "persist": true
+              }
+            },
+            "focus": [
+              "index",
+              "buckets"
+            ],
+            "pulse": [
+              "buckets"
+            ],
+            "note": "1047 % 8 = 7 as well"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s06",
+      "type": "diagram",
+      "anchor": {
+        "from": {
+          "turn": "t08"
+        },
+        "to": {
+          "turn": "t08",
+          "word": "bucket"
+        }
+      },
+      "props": {
+        "title": "A collision",
+        "elements": [
+          {
+            "id": "b7",
+            "kind": "rect",
+            "x": 200,
+            "y": 200,
+            "w": 260,
+            "h": 140
+          },
+          {
+            "id": "b7label",
+            "kind": "text",
+            "x": 330,
+            "y": 270,
+            "text": "bucket 7"
+          },
+          {
+            "id": "a1",
+            "kind": "arrow",
+            "x": 470,
+            "y": 270,
+            "x2": 690,
+            "y2": 270,
+            "draw": true
+          },
+          {
+            "id": "alice",
+            "kind": "rect",
+            "x": 700,
+            "y": 210,
+            "w": 240,
+            "h": 120,
+            "stroke": "#7CC4FF"
+          },
+          {
+            "id": "alicelabel",
+            "kind": "text",
+            "x": 820,
+            "y": 270,
+            "text": "\"alice\""
+          },
+          {
+            "id": "a2",
+            "kind": "arrow",
+            "x": 950,
+            "y": 270,
+            "x2": 1170,
+            "y2": 270,
+            "draw": true
+          },
+          {
+            "id": "bob",
+            "kind": "rect",
+            "x": 1180,
+            "y": 210,
+            "w": 240,
+            "h": 120,
+            "stroke": "#FFB020"
+          },
+          {
+            "id": "boblabel",
+            "kind": "text",
+            "x": 1300,
+            "y": 270,
+            "text": "\"bob\""
+          }
+        ],
+        "steps": [
+          {
+            "at": {
+              "turn": "t08"
+            },
+            "reveal": [
+              "a1",
+              "alice",
+              "alicelabel"
+            ]
+          },
+          {
+            "at": {
+              "turn": "t08",
+              "word": "collision"
+            },
+            "reveal": [
+              "a2",
+              "bob",
+              "boblabel"
+            ],
+            "highlight": [
+              "bob",
+              "boblabel",
+              "a2"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "s07",
+      "type": "custom",
+      "anchor": {
+        "from": {
+          "turn": "t08",
+          "word": "bucket"
+        },
+        "to": {
+          "turn": "t08",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "component": "BucketFill",
+        "title": "Buckets keep a chain",
+        "buckets": 8,
+        "inserts": [
+          {
+            "key": "alice",
+            "hash": 7391,
+            "at": {
+              "turn": "t08",
+              "word": "bucket"
+            }
+          },
+          {
+            "key": "carol",
+            "hash": 2050,
+            "at": {
+              "turn": "t08",
+              "word": "keeps"
+            }
+          },
+          {
+            "key": "bob",
+            "hash": 1047,
+            "at": {
+              "turn": "t08",
+              "word": "chain"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "s08",
+      "type": "recap",
+      "anchor": {
+        "from": {
+          "turn": "t09"
+        },
+        "to": {
+          "turn": "t09",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "points": [
+          {
+            "text": "Hash the key to a number",
+            "at": {
+              "turn": "t09",
+              "word": "hash"
+            }
+          },
+          {
+            "text": "Jump to bucket hash mod n",
+            "at": {
+              "turn": "t09",
+              "word": "jump"
+            }
+          },
+          {
+            "text": "Check the short chain there",
+            "at": {
+              "turn": "t09",
+              "word": "check"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "s09",
+      "type": "check",
+      "anchor": {
+        "from": {
+          "turn": "t10"
+        },
+        "to": {
+          "turn": "t10",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "question": "What picks the bucket?",
+        "options": [
+          "A search through every key",
+          "The hash, modulo the bucket count",
+          "The order keys were added"
+        ],
+        "correct": 1,
+        "answer": "The hash, modulo the bucket count",
+        "answerAt": {
+          "turn": "t10",
+          "word": "hash"
+        }
+      }
+    }
+  ],
+  "overlays": [
+    {
+      "id": "c1",
+      "type": "chip",
+      "anchor": {
+        "from": {
+          "turn": "t01",
+          "word": "hash map"
+        },
+        "to": {
+          "turn": "t01",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "text": "hash map",
+        "persist": true
+      }
+    },
+    {
+      "id": "c2",
+      "type": "chip",
+      "anchor": {
+        "from": {
+          "turn": "t02",
+          "word": "hash function"
+        },
+        "to": {
+          "turn": "t03",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "text": "hash function",
+        "persist": true
+      }
+    },
+    {
+      "id": "c3",
+      "type": "chip",
+      "anchor": {
+        "from": {
+          "turn": "t04",
+          "word": "modulo"
+        },
+        "to": {
+          "turn": "t04",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "text": "modulo",
+        "persist": true
+      }
+    },
+    {
+      "id": "c4",
+      "type": "chip",
+      "anchor": {
+        "from": {
+          "turn": "t08",
+          "word": "collision"
+        }
+      },
+      "props": {
+        "text": "collision",
+        "color": "#FFB020",
+        "persist": true
+      }
+    }
+  ]
+}

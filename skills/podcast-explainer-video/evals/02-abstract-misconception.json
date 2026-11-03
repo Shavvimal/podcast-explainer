@@ -1,0 +1,23 @@
+{
+  "skills": [
+    "podcast-explainer-video"
+  ],
+  "query": "I still don't really understand what a p-value means. Make a short explainer video, two hosts, about 6 minutes. I want to be able to test myself afterwards.",
+  "files": [],
+  "expected_behavior": [
+    "Treats the request as a topic with no source document, so it runs the firecrawl skill to find at least two reputable sources (for example the ASA 2016 statement on p-values) and records each URL, quote and retrieved date in facts.json before writing the outline",
+    "Names the known misconception in facts.json misconceptions[] (a p-value is the probability that the null hypothesis is true) with its correction and a sourceId",
+    "Uses depth quick with the learning-design.md section 5 skeleton (hook, plain, misconception, analogy, selftest or an equivalent from the role enum); the hook states the misconception as a confident learner prediction, no definition of p-value appears in the first segment, and the plain meaning comes before the term 'null hypothesis' is used",
+    "The cold-open turn asks the learner to predict, with holdAfterMs 6000 to 8000 and pause {kind: predict, prompt}; the prompt targets the core idea (what a p-value measures), not a side fact; the answer comes only in a later turn; validate_script.py reports no E25",
+    "Has a second pause of kind retrieve before the 6-minute mark (no W23 warning and no E23 error), and the closing segment holds a learner explain-back and a question that needs the mechanism",
+    "Keeps every expert turn at or under 45 words and has no three same-speaker turns in a row; validate_script.py exits 0 with --facts and --minutes 6; the word budget is checked at 0.357 s per word minus the hold seconds",
+    "Contains no praise from the learner host to the expert, at most one backchannel per 4 turns, no stage directions or Name: prefixes in turn text, and states the limit of every analogy in the same or the next turn",
+    "Stops at HUMAN GATE 1 (outline) and HUMAN GATE 2 (three hero stills) and asks with AskUserQuestion, recommended option first, before any paid TTS call",
+    "After render, episode.json has one holds[] entry per pause turn, and qc.py all reports coverage.pauses pass and renders a still at each hold that shows the prompt card with a countdown ring",
+    "Writes explainers/p-values/learn.json (5 self-test questions with at most one at remember level, one misconception card, one analogy-limit card, a teach-back task, a summary and seeded gap-log rows, all citing turn ids, never times), runs learn.py, and reports learn/selftest.md, learn/cards.csv (tab-separated, tags explainer::p-values and the segment id) and learn/teachback.md to the learner; if the Gemini key is missing it offers the --scratch voice and never prints the key",
+    "Before any TTS call, validate_script.py prints a length line whose predicted length (words x 0.357 s + holds + 250 ms gaps + 600 ms segment tails + lead) is at most 8% over the target (no E39 or W39); tts.py --dry-run prints the same prediction",
+    "The mechanism and misconception segments pass E41 to E44: at least two distinct causal connectives, a plain definition and a worked number or named case in the mechanism; a turn that repeats the learner's wrong belief and says it fails in the misconception segment",
+    "learn.json marks exactly one transfer or apply selfTest item with heldOut: true, about a case the video never works; qc.py brief.heldout passes, and the judge's JSON reports heldOut.demonstrated false with evidence",
+    "qc/scores.json holds the judge's fields plus judgeReply verbatim with judgeReplySha256, and restate with retrieval and transfer answers, their citations, reply verbatim and replySha256; every cited turn and mm:ss exists in the episode"
+  ]
+}

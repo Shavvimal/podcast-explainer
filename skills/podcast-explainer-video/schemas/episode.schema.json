@@ -1,0 +1,560 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "episode.schema.json",
+  "title": "podcast-explainer-video episode.json",
+  "description": "The only input of the Remotion composition. Written by build_manifest.py from script.json + scenes.json + timing.json. Every time is an integer millisecond from the start of the episode audio; anchors are already resolved (atMs, startMs, endMs, revealAtMs).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "id",
+    "title",
+    "video",
+    "audio",
+    "speakers",
+    "segments",
+    "turns",
+    "scenes",
+    "overlays",
+    "captions",
+    "rail"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "conceptAngle": {
+      "type": "string"
+    },
+    "builtAt": {
+      "type": "string"
+    },
+    "timingSource": {
+      "type": "string",
+      "enum": [
+        "whisper.cpp",
+        "estimated",
+        "placeholder",
+        "mixed"
+      ]
+    },
+    "video": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fps",
+        "width",
+        "height",
+        "tailMs"
+      ],
+      "properties": {
+        "fps": {
+          "const": 30
+        },
+        "width": {
+          "const": 1920
+        },
+        "height": {
+          "const": 1080
+        },
+        "tailMs": {
+          "type": "integer",
+          "minimum": 500,
+          "maximum": 3000
+        }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "src",
+        "durationMs"
+      ],
+      "properties": {
+        "src": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Relative to public/episodes/<slug>/. null in placeholder mode (no audio yet)."
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sampleRate": {
+          "type": "integer"
+        },
+        "scratch": {
+          "type": "boolean"
+        }
+      }
+    },
+    "speakers": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "color",
+          "side"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "voice": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "left",
+              "right"
+            ]
+          },
+          "role": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "segments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "role",
+          "startMs",
+          "endMs"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "description": "One of the roles in common.schema.json $defs.role."
+          },
+          "title": {
+            "type": "string"
+          },
+          "startMs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "endMs": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "turns": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "speaker",
+          "segment",
+          "text",
+          "startMs",
+          "endMs",
+          "words"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "speaker": {
+            "type": "string"
+          },
+          "segment": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string",
+            "description": "Spoken text: script text without <tags> and |backchannels|."
+          },
+          "startMs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "endMs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "onScreen": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "words": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "text",
+                "startMs",
+                "endMs",
+                "source"
+              ],
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "startMs": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "endMs": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "asr",
+                    "interpolated",
+                    "estimated"
+                  ]
+                }
+              }
+            }
+          },
+          "holdAfterMs": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Silence tts.py inserted after this turn (from script.json)."
+          }
+        }
+      }
+    },
+    "holds": {
+      "type": "array",
+      "description": "Pause-and-think holds, one per script turn with holdAfterMs > 0. The Episode shows the pause cue (prompt card with a countdown ring) from startMs to endMs when kind and prompt are set. kind mirrors common.schema.json $defs.pause.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "turn",
+          "segment",
+          "holdMs",
+          "startMs",
+          "endMs",
+          "kind",
+          "prompt"
+        ],
+        "properties": {
+          "turn": {
+            "type": "string"
+          },
+          "segment": {
+            "type": "string"
+          },
+          "holdMs": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "startMs": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "End of the turn."
+          },
+          "endMs": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "startMs + holdMs, capped at the next turn start."
+          },
+          "kind": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "predict",
+              "retrieve",
+              "explain-back",
+              null
+            ]
+          },
+          "prompt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "scenes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "startMs",
+          "endMs",
+          "props"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "title",
+              "world",
+              "diagram",
+              "code",
+              "equation",
+              "recap",
+              "check",
+              "compare",
+              "matrix",
+              "custom"
+            ]
+          },
+          "anchor": {
+            "type": "object"
+          },
+          "segment": {
+            "type": "string"
+          },
+          "captions": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          },
+          "startMs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "endMs": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "props": {
+            "type": "object"
+          },
+          "enterLeadMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000,
+            "description": "build_manifest.py moved the scene start this many ms before its anchor so the entrance fade ends before the speech."
+          },
+          "enterMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000,
+            "description": "Length of this scene's entrance fade in ms, set by build_manifest.py so no speech falls inside it: 233 (ENTER_MS, read from motionConstants.ts ENTRANCE_MS: ENTRANCE_FRAMES 7 at 30 fps) when the silence allows, shorter when the gap before the turn is shorter, 0 for a cut. The template (Episode.tsx) fades over round(enterMs * fps / 1000) frames when present, else ENTRANCE_FRAMES."
+          }
+        }
+      }
+    },
+    "overlays": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "startMs",
+          "endMs",
+          "props"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "const": "chip"
+          },
+          "anchor": {
+            "type": "object"
+          },
+          "auto": {
+            "type": "boolean"
+          },
+          "startMs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "endMs": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "props": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "text"
+            ],
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "color": {
+                "type": "string"
+              },
+              "persist": {
+                "type": "boolean",
+                "description": "true: the chip keeps its own end; otherwise it ends at the next visual step (overlayState.ts chipFrames, pe_common.chip_frames)."
+              },
+              "claim": {
+                "type": "object",
+                "description": "A structured count claim (scenes.schema.json $defs/countClaim), checked by qc.py labels.counts."
+              }
+            }
+          }
+        }
+      }
+    },
+    "world": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "nodes",
+        "edges"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "layout": {
+          "type": "string",
+          "enum": [
+            "free",
+            "ring"
+          ]
+        },
+        "ring": {
+          "type": "object"
+        },
+        "camera": {
+          "type": "object"
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "x",
+              "y"
+            ]
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "from",
+              "to"
+            ]
+          }
+        },
+        "route": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "station",
+              "nodes",
+              "segment",
+              "item"
+            ]
+          }
+        }
+      }
+    },
+    "captions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "maxCharsPerSecond",
+        "minPageMs"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "karaoke",
+            "pop",
+            "off"
+          ]
+        },
+        "maxCharsPerSecond": {
+          "type": "number"
+        },
+        "minPageMs": {
+          "type": "integer"
+        }
+      }
+    },
+    "rail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "waveform"
+      ],
+      "properties": {
+        "waveform": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

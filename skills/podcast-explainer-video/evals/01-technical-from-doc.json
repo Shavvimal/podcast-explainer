@@ -1,0 +1,25 @@
+{
+  "skills": [
+    "podcast-explainer-video"
+  ],
+  "query": "Make me an in-depth podcast explainer about consistent hashing from these notes, from first principles, properly. I know Python and basic hashing, but I never got why the ring helps or what virtual nodes are for.",
+  "files": [
+    "evals/files/consistent-hashing-source.md"
+  ],
+  "expected_behavior": [
+    "Runs scripts/preflight.py before any paid call and reports the Gemini key only as present or missing; no key value, prefix or length appears in any output, file or log",
+    "Picks depth deep from the words 'in depth' and 'from first principles' (references/depth.md section 2; an explicit depth name such as 'standard depth' in the request would win over these words), asks at most one intake question, and writes brief.json with depth deep, learnerLevel familiar or novice, source kind document, and a learner profile that names what the learner knows (Python, basic hashing) and what confuses them (the ring, virtual nodes); brief.json passes schemas/brief.schema.json",
+    "Unless the learner names other voices, brief.json and every script.json use the default hosts: learner Nia (voice Sulafat, left) and expert Theo (voice Iapetus, right), as in references/script.md section 2",
+    "Splits the run into a series of 2 or 3 parts of at most 12 minutes each, writes explainers/<series-id>/series.json, and uses slugs <series-id>-p1, <series-id>-p2; each part has its own folder, outline.json, script.json, audio and mp4",
+    "Writes facts.json in which every number used later (4 to 5 servers, about 80% of keys, 1/N, 2^32, 1997, 2007) has a sourceId and a verbatim quote; for a deep run it adds web sources with the firecrawl skill so that load-bearing claims have more than one source, and lists any contradiction in openQuestions",
+    "Each part's outline uses only roles from schemas/common.schema.json, opens part 1 with a hook whose keyQuestion targets the core idea, puts a plain segment before any terms segment (unless learnerLevel is near-expert), includes a misconception segment in at least one part, and ends every part with selftest or check; part 2 opens with a recap segment that asks retrieval questions about part 1",
+    "Stops at HUMAN GATE 1 with a table per part (segment, role, title, key question, minutes, pauses) and the estimated cost and render time, and asks with AskUserQuestion, recommended option first",
+    "Each part's script.json has a cold-open turn with pause kind predict and holdAfterMs 6000 to 8000, at least one retrieval pause every 5 to 6 minutes, and validate_script.py exits 0 with --facts and --minutes (no E-codes, so no E23 or E25; W23 and W25 absent)",
+    "Writes scenes.json with one persistent ring world shared by all parts (part 2 starts from part 1's final world state), renders three hero stills per part and stops at HUMAN GATE 2",
+    "Produces audio, timing.json with words[] and holdAfterMs, episode.json with holds[], and out/episode.mp4 per part at 1920x1080, 30 fps, H.264; the hold stills show the pause card with a countdown ring and no answer",
+    "Runs qc.py all per part as a diagnostic, writes learn.json and runs learn.py, runs transcript.py --embed-chapters with --series and --part, then runs qc.py all on the final mp4 and hands qc/judge-brief.md to a read-only judge agent and qc/restate-brief.md to a separate blind restate agent (the parent writes qc/scores.json), validates explainers/<series-id>/series.json with --final, runs qc.py all --final per part, and stops at HUMAN GATE 3 with the mp4 paths and chapter lists",
+    "brief.json has a lexicon entry for the learner's name (for example {\"Priya\": [\"pria\", \"prayer\"]}) so fidelity does not warn on a misheard name; validate_script.py reports no E40",
+    "validate_script.py explainers/<series-id>/series.json --final passes only when every part has valid timing.json and scenes.json and the same glossary.json",
+    "qc.py all --final passes final.artefacts: transcript.md, transcript.json, captions.vtt, captions.srt, the library copy and the mp4 sidecars match delivery.json and what transcript.py renders now"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "slug": "hash-maps",
+  "title": "How a hash map works",
+  "selfTest": [
+    {"question": "In your own words, why can a hash map find a key among a million entries about as fast as among ten?", "level": "understand", "answer": "It never scans: arithmetic on the key gives a bucket index, and the lookup jumps straight to that one bucket.", "segment": "seg01", "turn": "t02"},
+    {"question": "A table has 16 buckets and a load factor limit of 0.75. You insert a 13th entry. What happens, and why?", "level": "apply", "answer": "The table passes 12 entries, so it doubles to 32 buckets and re-hashes every key, which keeps each bucket's list short.", "segment": "seg03", "turn": "t07"},
+    {"question": "Someone says every key gets its own private slot in a hash map. What is wrong with that?", "level": "analyse", "answer": "There are far more possible keys than buckets, so two keys can land in the same bucket; the bucket then holds a short list that the lookup checks.", "segment": "seg02", "turn": "t04"},
+    {"question": "When does a sorted list with binary search beat a hash map for lookups, and when not?", "level": "compare", "answer": "A hash map jumps to one bucket in about constant time, but only if the hash spreads keys evenly; a bad hash crowds a few buckets and the lookup turns back into a scan.", "segment": "seg04", "turn": "t10"},
+    {"question": "A robot logs sensor readings keyed by timestamp, and every key ends up with the same hash. Does growing the table help? Why?", "level": "transfer", "heldOut": true, "answer": "No. Doubling only separates keys whose hashes differ, so identical hashes stay in one bucket and every lookup scans them all.", "segment": "seg05", "turn": "t12"}
+  ],
+  "teachBack": {
+    "task": "Explain how a hash map stays fast as it grows to a smart friend outside the field in at most 150 words. Use at most 3 terms and define each at first use. Do not look at the video or summary.",
+    "requiredIdeas": ["the hash turns the key into a bucket index, so there is no scan", "two keys can share a bucket, which then holds a short list", "the load factor is entries divided by buckets", "the table doubles and re-hashes before the lists get long", "the hash must spread keys evenly or doubling does not help"],
+    "mustNotClaim": "Every key gets its own private slot, so nothing ever shares a bucket.",
+    "interactivePrompt": "Play a curious student who knows Python, ML and robotics but not how a hash map works inside. After each sentence I write, ask one why or how question about the weakest step. Do not explain the concept yourself. After 6 exchanges, list which of these ideas I never explained: hash gives a bucket index; buckets can hold a short list; load factor; doubling and re-hashing; the hash must spread keys evenly."
+  },
+  "cards": [
+    {"front": "Why does a hash map lookup not get slower when the map holds a million keys?", "back": "The hash turns the key into a bucket index, so the lookup jumps to one bucket instead of scanning.", "turnId": "t02"},
+    {"front": "True or false, and why: every key in a hash map gets its own private slot.", "back": "False. There are far more possible keys than buckets, so keys collide and a bucket holds a short list.", "turnId": "t04"},
+    {"front": "What does a lookup do when two keys share a bucket?", "back": "It checks the short list in that bucket, comparing keys until it finds the match.", "turnId": "t05"},
+    {"front": "Why does a hash map double its buckets before they get crowded?", "back": "Doubling and re-hashing keeps the load factor low, so each bucket's list stays short and lookups stay cheap.", "turnId": "t07"},
+    {"front": "Why is doubling the table cheap on average even though one doubling is expensive?", "back": "Doubling is rare, so its cost spread over all inserts keeps each insert cheap on average.", "turnId": "t08"},
+    {"front": "Why does doubling not help when every key has the same hash?", "back": "Doubling only separates keys whose hashes differ; identical hashes stay in one bucket, so the lookup is a scan.", "turnId": "t12"}
+  ],
+  "summary": {
+    "puzzle": "Why is finding one name among a million entries about as fast as among ten?",
+    "answer": "The hash jumps straight to one bucket, collisions share a short list, and the table doubles before lists get long.",
+    "plain": "The map does a bit of arithmetic on the key and uses the result as an address. Different keys can get the same address, so each address holds a short list. When the lists start to fill, the map doubles its number of addresses and moves every key, so the lists stay short.",
+    "mechanism": ["Hash the key into a number and turn it into a bucket index.", "Jump to that bucket; if several keys share it, check its short list.", "Track the load factor, entries divided by buckets.", "Above the limit (0.75 in Java), double the buckets and re-hash every key."],
+    "terms": [{"term": "bucket", "meaning": "one slot of the table that holds the keys hashed to it"}, {"term": "collision", "meaning": "two keys landing in the same bucket"}, {"term": "load factor", "meaning": "entries divided by buckets"}],
+    "misconception": {"claim": "Every key gets its own private slot, so nothing ever shares.", "whyFails": "There are far more possible keys than buckets, so collisions are certain and a bucket must hold a list."},
+    "stillOpen": ["How a good hash function spreads keys evenly", "Open addressing as an alternative to lists"]
+  },
+  "gapLog": [
+    {"question": "What makes a hash function spread keys evenly?", "turn": "t10", "status": "open"},
+    {"question": "Why is the limit 0.75 and not 1.0?", "turn": "t07", "status": "open"}
+  ]
+}

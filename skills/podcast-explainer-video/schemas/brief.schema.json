@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "brief.schema.json",
+  "title": "podcast-explainer-video brief.json",
+  "description": "The contract for one episode: what concept, from what source, for which learner, how long, which hosts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "id",
+    "concept",
+    "source",
+    "learner",
+    "coreMessage",
+    "learnerOutcome",
+    "minutes",
+    "speakers"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 60,
+      "description": "Slug; also the folder name explainers/<id>/."
+    },
+    "concept": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "topic",
+            "document",
+            "url"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https?://"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "document"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "path"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "url"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "url"
+            ]
+          }
+        }
+      ]
+    },
+    "learner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "knows",
+        "confusedBy"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "knows": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "confusedBy": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "worldExamples": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Contexts from the learner's life to tie examples to (robots, building firm, ML)."
+        }
+      }
+    },
+    "learnerLevel": {
+      "type": "string",
+      "enum": [
+        "novice",
+        "familiar",
+        "near-expert"
+      ],
+      "default": "familiar",
+      "description": "How close the learner is to the concept. near-expert skips the plain pass and the worked-step scaffolding (learning-design.md rule L7); novice keeps both and adds a second worked example."
+    },
+    "viewing": {
+      "type": "string",
+      "enum": [
+        "desktop",
+        "phone"
+      ],
+      "default": "desktop",
+      "description": "Where the learner watches. desktop: qc.py judges readability on 720p contact sheets (contact-sheet-720-NN.png); text under 36 px or a grid over 8 cells per row is a warning (text.phone). phone: the 360 px phone sheet is the reference and those findings fail. Text under 28 px fails in both."
+    },
+    "coreMessage": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "learnerOutcome": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "What the learner can do after watching. Becomes the retrieval question."
+    },
+    "minutes": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 40
+    },
+    "depth": {
+      "type": "string",
+      "enum": [
+        "quick",
+        "standard",
+        "deep"
+      ],
+      "description": "quick about 6 min / 5 segments, standard about 12 min / 8 segments, deep 20 to 35 min / 10 to 16 segments (references/depth.md)."
+    },
+    "speakers": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "voice",
+          "color",
+          "side",
+          "role"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,19}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          "voice": {
+            "type": "string",
+            "minLength": 1
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "left",
+              "right"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "learner",
+              "expert"
+            ]
+          },
+          "style": {
+            "type": "string",
+            "maxLength": 60
+          }
+        }
+      }
+    },
+    "audioMode": {
+      "type": "string",
+      "enum": [
+        "per-turn",
+        "chunk"
+      ],
+      "default": "per-turn"
+    },
+    "model": {
+      "type": "string",
+      "enum": [
+        "gemini-3.8-flash-tts",
+        "gemini-3.8-flash-lite-tts"
+      ],
+      "default": "gemini-3.8-flash-tts"
+    },
+    "created": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "lexicon": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 8,
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        }
+      },
+      "description": "Names and terms that ASR mishears, each with the spellings whisper writes for it, for example {\"Priya\": [\"pria\", \"prayer\"]}. fidelity.py and qc.py read a heard alias as its term, so a misheard name is not a warning. An alias that is a number, sign, negation or direction word, or a negating-prefix variant of its term, is refused (validate_script.py E40) and ignored: the lexicon never hides a meaning change. Part of the build identity (qc.py)."
+    },
+    "targetMinutes": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 40,
+      "description": "Optional alias of minutes for the episode length target; part of the build identity."
+    },
+    "selfTestCount": {
+      "type": "integer",
+      "minimum": 3,
+      "maximum": 8,
+      "default": 5,
+      "description": "Number of learn.json selfTest items learn.py requires (default 5; judge v6 lesson). At least one is at apply or transfer level and at most one at remember level."
+    }
+  }
+}

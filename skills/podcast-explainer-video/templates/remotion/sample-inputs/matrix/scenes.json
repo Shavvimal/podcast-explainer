@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "conceptAngle": "A grid of example weights: each query word spreads one unit of attention over the key words.",
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "matrix",
+      "anchor": {"from": {"turn": "t01"}},
+      "props": {
+        "title": "Example attention weights",
+        "rowAxis": "query",
+        "colAxis": "key",
+        "rows": ["brick", "fell", "it", "cracked"],
+        "columns": ["brick", "fell", "it", "cracked"],
+        "cells": [["0.70", "0.10", "0.05", "0.15"], ["0.30", "0.55", "0.05", "0.10"], ["0.81", "0.07", "0.04", "0.08"], ["0.40", "0.10", "0.30", "0.20"]],
+        "heat": [[0.7, 0.1, 0.05, 0.15], [0.3, 0.55, 0.05, 0.1], [0.81, 0.07, 0.04, 0.08], [0.4, 0.1, 0.3, 0.2]],
+        "steps": [
+          {"at": {"turn": "t02", "word": "scores"}, "highlight": [{"row": "it"}], "note": "one row per query word"},
+          {"at": {"turn": "t02", "word": "brick"}, "highlight": [{"row": "it", "col": "brick"}], "note": "it to brick: 0.81 (example data)"},
+          {"at": {"turn": "t03", "word": "sums"}, "highlight": [{"row": 2}], "note": "each row sums to 1"}
+        ]
+      }
+    }
+  ]
+}

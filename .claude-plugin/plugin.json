@@ -1,0 +1,21 @@
+{
+  "name": "podcast-explainer",
+  "version": "0.1.0",
+  "description": "Two-host podcast-style explainer videos from a topic, document or URL: a sourced claim ledger, a validated dialogue script with pause-and-think holds, per-turn Gemini TTS, a Remotion render with one persistent concept diagram, an independent QC judge, and a searchable transcript library with flashcards and a self-test.",
+  "author": {
+    "name": "Shav Vimalendiran",
+    "url": "https://github.com/Shavvimal"
+  },
+  "homepage": "https://github.com/Shavvimal/podcast-explainer",
+  "repository": "https://github.com/Shavvimal/podcast-explainer",
+  "license": "MIT",
+  "keywords": [
+    "explainer-video",
+    "podcast",
+    "remotion",
+    "gemini-tts",
+    "text-to-speech",
+    "learning",
+    "claude-code"
+  ]
+}

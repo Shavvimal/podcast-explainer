@@ -1,0 +1,458 @@
+{
+  "version": 1,
+  "conceptAngle": "A row of buckets that keys drop into, which doubles in place when it gets crowded.",
+  "captions": {
+    "mode": "karaoke"
+  },
+  "world": {
+    "nodes": [
+      {
+        "id": "key",
+        "label": "key",
+        "value": "\"ava\"",
+        "x": 230,
+        "y": 250,
+        "persist": true
+      },
+      {
+        "id": "hashfn",
+        "label": "hash()",
+        "sublabel": "arithmetic",
+        "x": 640,
+        "y": 250,
+        "shape": "pill"
+      },
+      {
+        "id": "slot",
+        "label": "slot",
+        "value": "?",
+        "x": 1050,
+        "y": 250,
+        "persist": true
+      },
+      {
+        "id": "buckets",
+        "label": "16 buckets",
+        "sublabel": "the table",
+        "x": 1050,
+        "y": 540
+      },
+      {
+        "id": "chain",
+        "label": "short list",
+        "sublabel": "collision",
+        "x": 1500,
+        "y": 540,
+        "color": "#FFB020"
+      },
+      {
+        "id": "load",
+        "label": "load factor",
+        "sublabel": "entries / buckets",
+        "value": "limit 0.75",
+        "x": 430,
+        "y": 540,
+        "color": "#5BD69A",
+        "persist": true
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "from": "key",
+        "to": "hashfn"
+      },
+      {
+        "id": "e2",
+        "from": "hashfn",
+        "to": "slot",
+        "label": "jump"
+      },
+      {
+        "id": "e3",
+        "from": "slot",
+        "to": "buckets",
+        "label": "one of 16"
+      },
+      {
+        "id": "e4",
+        "from": "buckets",
+        "to": "chain",
+        "dashed": true
+      },
+      {
+        "id": "e5",
+        "from": "load",
+        "to": "buckets",
+        "label": "over 12: double"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "title",
+      "anchor": {
+        "from": {
+          "turn": "t01"
+        },
+        "to": {
+          "turn": "t01",
+          "word": "How?"
+        }
+      },
+      "props": {
+        "kicker": "Podcast explainer",
+        "title": "How a hash map works",
+        "subtitle": "a million entries, the speed of ten",
+        "question": "Is it just scanning really fast?",
+        "questionAt": {
+          "turn": "t01",
+          "word": "How?"
+        }
+      }
+    },
+    {
+      "id": "s02",
+      "type": "world",
+      "anchor": {
+        "from": {
+          "turn": "t01",
+          "word": "How?"
+        },
+        "to": {
+          "turn": "t05",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "steps": [
+          {
+            "at": {
+              "turn": "t01",
+              "word": "scanning"
+            },
+            "reveal": [
+              "key"
+            ],
+            "focus": [
+              "key"
+            ],
+            "note": "Guess: it scans really fast"
+          },
+          {
+            "at": {
+              "turn": "t02",
+              "word": "arithmetic"
+            },
+            "reveal": [
+              "hashfn",
+              "e1"
+            ],
+            "focus": [
+              "hashfn"
+            ],
+            "flow": [
+              "e1"
+            ]
+          },
+          {
+            "at": {
+              "turn": "t02",
+              "word": "jumps"
+            },
+            "reveal": [
+              "slot",
+              "e2"
+            ],
+            "focus": [
+              "slot"
+            ],
+            "flow": [
+              "e2"
+            ],
+            "set": {
+              "slot": {
+                "value": "7",
+                "persist": true
+              }
+            }
+          },
+          {
+            "at": {
+              "turn": "t03",
+              "word": "own private slot"
+            },
+            "focus": [
+              "slot"
+            ],
+            "pulse": [
+              "slot"
+            ],
+            "note": "One key, one slot?"
+          },
+          {
+            "at": {
+              "turn": "t04",
+              "word": "16 buckets"
+            },
+            "reveal": [
+              "buckets",
+              "e3"
+            ],
+            "focus": [
+              "buckets"
+            ],
+            "camera": {
+              "x": 864,
+              "y": 400,
+              "zoom": 1
+            }
+          },
+          {
+            "at": {
+              "turn": "t05",
+              "word": "short list"
+            },
+            "reveal": [
+              "chain",
+              "e4"
+            ],
+            "focus": [
+              "buckets",
+              "chain"
+            ],
+            "focusEdges": [
+              "e4"
+            ]
+          },
+          {
+            "at": {
+              "turn": "t05",
+              "word": "collision"
+            },
+            "pulse": [
+              "chain"
+            ],
+            "note": "Two keys, one bucket: a collision"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03",
+      "type": "world",
+      "anchor": {
+        "from": {
+          "turn": "t06"
+        },
+        "to": {
+          "turn": "t08",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "steps": [
+          {
+            "at": {
+              "turn": "t06",
+              "word": "longer"
+            },
+            "focus": [
+              "chain"
+            ],
+            "pulse": [
+              "chain"
+            ],
+            "note": "Lists grow as keys arrive"
+          },
+          {
+            "at": {
+              "turn": "t07",
+              "word": "load factor"
+            },
+            "reveal": [
+              "load"
+            ],
+            "focus": [
+              "load"
+            ]
+          },
+          {
+            "at": {
+              "turn": "t07",
+              "word": "0.75"
+            },
+            "focus": [
+              "load"
+            ],
+            "pulse": [
+              "load"
+            ]
+          },
+          {
+            "at": {
+              "turn": "t07",
+              "word": "12"
+            },
+            "reveal": [
+              "e5"
+            ],
+            "focus": [
+              "load",
+              "buckets"
+            ],
+            "focusEdges": [
+              "e5"
+            ],
+            "flow": [
+              "e5"
+            ],
+            "note": "16 x 0.75 = 12 entries"
+          },
+          {
+            "at": {
+              "turn": "t07",
+              "word": "32"
+            },
+            "focus": [
+              "buckets"
+            ],
+            "set": {
+              "buckets": {
+                "label": "32 buckets",
+                "persist": true
+              }
+            },
+            "pulse": [
+              "buckets"
+            ]
+          },
+          {
+            "at": {
+              "turn": "t08",
+              "word": "doubling"
+            },
+            "focus": [
+              "buckets",
+              "chain"
+            ],
+            "note": "Rare doubling keeps lists short"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s04",
+      "type": "recap",
+      "anchor": {
+        "from": {
+          "turn": "t09"
+        },
+        "to": {
+          "turn": "t10",
+          "edge": "end"
+        }
+      },
+      "props": {
+        "title": "Say it back",
+        "points": [
+          {
+            "text": "The hash picks a bucket: no scan",
+            "at": {
+              "turn": "t09",
+              "word": "One"
+            }
+          },
+          {
+            "text": "Keys collide: a bucket holds a short list",
+            "at": {
+              "turn": "t09",
+              "word": "Two"
+            }
+          },
+          {
+            "text": "The table doubles before lists get long",
+            "at": {
+              "turn": "t09",
+              "word": "Three"
+            }
+          },
+          {
+            "text": "Only if the hash spreads keys evenly",
+            "at": {
+              "turn": "t10",
+              "word": "spreads"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "s05",
+      "type": "check",
+      "anchor": {
+        "from": {
+          "turn": "t11"
+        }
+      },
+      "props": {
+        "question": "100 keys with the same hash: does doubling help?",
+        "options": [
+          "Yes, the keys spread out",
+          "No, they stay in one bucket"
+        ],
+        "correct": 1,
+        "answer": "No. Same hash, same bucket: still a scan of 100 keys.",
+        "answerAt": {
+          "turn": "t12",
+          "word": "No."
+        }
+      }
+    }
+  ],
+  "overlays": [
+    {
+      "id": "c1",
+      "type": "chip",
+      "anchor": {
+        "from": {
+          "turn": "t01",
+          "word": "dictionary"
+        }
+      },
+      "props": {
+        "text": "dictionary",
+        "persist": true
+      }
+    },
+    {
+      "id": "c2",
+      "type": "chip",
+      "anchor": {
+        "from": {
+          "turn": "t08",
+          "word": "doubling"
+        }
+      },
+      "props": {
+        "text": "doubling",
+        "persist": true
+      }
+    },
+    {
+      "id": "c3",
+      "type": "chip",
+      "anchor": {
+        "from": {
+          "turn": "t10",
+          "word": "spreads keys evenly"
+        }
+      },
+      "props": {
+        "text": "spreads keys evenly",
+        "persist": true
+      }
+    }
+  ]
+}

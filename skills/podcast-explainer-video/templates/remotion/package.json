@@ -1,0 +1,32 @@
+{
+  "name": "podcast-explainer-remotion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Remotion project for two-host podcast explainer videos. Copied once per workspace by the podcast-explainer-video skill.",
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio",
+    "still": "remotion still",
+    "render": "remotion render",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/captions": "4.0.540",
+    "@remotion/cli": "4.0.540",
+    "@remotion/google-fonts": "4.0.540",
+    "@remotion/install-whisper-cpp": "4.0.540",
+    "@remotion/media": "4.0.540",
+    "@remotion/media-utils": "4.0.540",
+    "@remotion/paths": "4.0.540",
+    "katex": "0.19.1",
+    "prism-react-renderer": "2.4.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remotion": "4.0.540"
+  },
+  "devDependencies": {
+    "@types/katex": "0.16.8",
+    "@types/react": "19.3.0",
+    "typescript": "5.9.3"
+  }
+}

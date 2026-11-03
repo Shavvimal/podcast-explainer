@@ -1,0 +1,15 @@
+{
+  "name": "podcast-explainer",
+  "owner": {
+    "name": "Shav Vimalendiran",
+    "url": "https://github.com/Shavvimal"
+  },
+  "description": "podcast-explainer: two-host explainer videos (Gemini TTS + Remotion) with a searchable transcript library and self-test material, driven by Claude.",
+  "plugins": [
+    {
+      "name": "podcast-explainer",
+      "source": "./",
+      "description": "Turn a topic, document or URL into a two-host podcast-style explainer video with a sourced script, Gemini TTS audio, a Remotion render, QC, and a searchable transcript library with flashcards and a self-test."
+    }
+  ]
+}

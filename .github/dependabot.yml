@@ -6,16 +6,6 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "ci"
-  # The Remotion template pins exact versions on purpose (all @remotion/* must match). Dependabot
-  # opens the PR; a human checks the Remotion changelog and bumps every @remotion/* line together.
-  - package-ecosystem: "npm"
-    directory: "/skills/podcast-explainer-video/templates/remotion"
-    schedule:
-      interval: "monthly"
-    commit-message:
-      prefix: "template"
-    groups:
-      remotion:
-        patterns:
-          - "remotion"
-          - "@remotion/*"
+# The Remotion template is not watched on purpose: it pins exact versions (every @remotion/* line
+# must match), a bump needs a real render check, and any change under skills/ needs a plugin version
+# bump that Dependabot cannot make. Bump the template by hand; see DEVELOPING.md.

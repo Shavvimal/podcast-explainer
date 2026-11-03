@@ -1,6 +1,6 @@
 # podcast-explainer
 
-[![ci](https://github.com/Shavvimal/podcast-explainer/actions/workflows/ci.yml/badge.svg)](https://github.com/Shavvimal/podcast-explainer/actions/workflows/ci.yml)
+[![ci](https://github.com/Shavvimal/podcast-explainer/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Shavvimal/podcast-explainer/actions/workflows/ci.yml)
 [![release](https://img.shields.io/github/v/release/Shavvimal/podcast-explainer?sort=semver)](https://github.com/Shavvimal/podcast-explainer/releases)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![python](https://img.shields.io/badge/python-3.10%2B-blue)
